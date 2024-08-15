@@ -12,14 +12,14 @@ class Player:
         
         self.x = x
         self.y = y
-        self.jump = 20
+        self.jump = 10
         self.jump_timer = 0
         self.jumped = False
         self.is_jumping = False
         self.rect = pygame.Rect(self.x, self.y, 30, 30)
         self.dx = 0
         self.dy = 0
-        self.dash_speed = 15
+        self.dash_speed = 10
         self.dash_time = 10
         self.vel_y = 0
         self.dash = True
@@ -50,7 +50,7 @@ class Player:
             self.dx += 10
             right = True 
         if (key[pygame.K_w] or key[pygame.K_UP]) and not self.jumped:
-            self.vel_y -= self.jump
+            self.vel_y = -self.jump
             self.jumped = True
             self.is_jumping = True
             up = True
@@ -72,6 +72,7 @@ class Player:
             self.is_dashing = True
             self.dash = False
             self.is_jumping = False
+            self.jump_timer = 0
             self.jumped = True
             if left:
                 self.dx = -self.dash_speed
@@ -80,13 +81,13 @@ class Player:
                 self.dx = self.dash_speed
                 right_dash = True
             if down:
-                self.vel_y = self.dash_speed
+                self.vel_y = self.dash_speed 
                 down_dash = True
             if key[pygame.K_w] or key[pygame.K_UP]:
-                self.vel_y = -self.dash_speed
+                self.vel_y = -self.dash_speed 
                 up_dash = True
             if not left and not up and not right and not down:
-                self.vel_y = -self.dash_speed
+                self.vel_y = -self.dash_speed 
                 up_dash = True
 
             
