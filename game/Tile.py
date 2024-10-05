@@ -2,34 +2,10 @@ import pygame
 from Objects import *
 
 class Tile:
-    
-    # Initial data
 
-    global tile_size, Hitbox
-
-    tile_size = (40, 40)
-
-    # Hitboxes
-    
-    Hitbox = {
-        'safe': tile_size,
-        'safe_ground': (40,20),
-        'safe_wall': (20,40),
-        'spike_vertical': (22, 8),
-        'spike_sideways': (8, 22),
-        'block': tile_size,
-        'crystal': (30,30),
-        'reverse': (30,30),
-        'trampoline': (40,20),
-        'strawberry': (30,30),
-        'sticky': tile_size,
-        'wood': (40, 7)
-    }
-
-
+    # Class
 
     def __init__(self, data):
-        global Hitbox, tile_size
         
         # Lists of hitboxes and dictionary
 
@@ -44,7 +20,7 @@ class Tile:
         self.block_list = []
         self.strawberry_list = []
         self.straw_fly_list = []
-        self.sticky_list = []
+        self.flag_list = []
 
         self.tiles_dict = {
             'hitbox':  self.hitbox_list,
@@ -57,16 +33,20 @@ class Tile:
             'spike': self.spike_list,
             'block': self.block_list,
             'strawberry': self.strawberry_list,
-            'flying_straw': self.straw_fly_list
+            'flying_straw': self.straw_fly_list,
+            'flag': self.flag_list
         }
         
         # Tiles
 
         ichiban_cum = pygame.image.load('game/ichiban.png')
         row_idx = 0 
+        
         for row in data:
             col_idx = 0
+            
             for tile in row:
+                
                 if tile == 1:  # Safe tile full
                     hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe'])
                     hitbox_rect = hitbox.get_rect()
@@ -74,125 +54,65 @@ class Tile:
                     hitbox_rect.y = row_idx * tile_size[1]
                     self.hitbox_list.append(hitbox_rect)
 
-                elif tile == 2:  # Safe tile ground 
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0]
-                    hitbox_rect.y = row_idx * tile_size[1] + 20 
-                    self.hitbox_list.append(hitbox_rect)
-
-                elif tile == 3: # Safe tile ground reverse
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0]
-                    hitbox_rect.y = row_idx * tile_size[1]
-                    self.hitbox_list.append(hitbox_rect)
-                
-                elif tile == 4: # Safe tile wall left
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0]
-                    hitbox_rect.y = row_idx * tile_size[1] 
-                    self.hitbox_list.append(hitbox_rect)
-
-                elif tile == 5: # Safe tile wall right
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0] + 20
-                    hitbox_rect.y = row_idx * tile_size[1] 
-                    self.hitbox_list.append(hitbox_rect)
-
-                elif tile == 6:  # Spike tile up
-                    spike = Spikes(col_idx * tile_size[0] + 12, row_idx * tile_size[1] + 30, 'Vertical')
-                    self.spike_list.append(spike.hit_rect)
-                
-                elif tile == 7: # Spike tile down
-                    spike = Spikes(col_idx * tile_size[0] + 12, row_idx * tile_size[1] + 2, 'Vertical')
+                elif tile == 2:  # Spike tile up
+                        spike = Spikes(col_idx * tile_size[0] + 5, row_idx * tile_size[1] + 20, 'Vertical')
+                        self.spike_list.append(spike.hit_rect)
+                    
+                elif tile == 3: # Spike tile down
+                    spike = Spikes(col_idx * tile_size[0] + 5, row_idx * tile_size[1], 'Vertical')
                     self.spike_list.append(spike.hit_rect)
 
-                elif tile == 8: # Spike tile left
-                    spike = Spikes(col_idx * tile_size[0] + 2, row_idx * tile_size[1] + 7, 'Sideways')
+                elif tile == 4: # Spike tile left
+                    spike = Spikes(col_idx * tile_size[0], row_idx * tile_size[1] + 9, 'Sideways')
                     self.spike_list.append(spike.hit_rect)
 
-                elif tile == 9: # Spike tile right
-                    spike = Spikes(col_idx * tile_size[0] + 30, row_idx * tile_size[1] + 7, 'Sideways')
-                    self.spike_list.append(spike.hit_rect)  
-
-                elif tile == 10: # Spike with ground 
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0]
-                    hitbox_rect.y = row_idx * tile_size[1] + 20 
-                    self.hitbox_list.append(hitbox_rect)
-                    spike = Spikes(hitbox_rect.x + 6, hitbox_rect.y - 10, 'Vertical')
+                elif tile == 5: # Spike tile right
+                    spike = Spikes(col_idx * tile_size[0] + 20, row_idx * tile_size[1] + 9, 'Sideways')
                     self.spike_list.append(spike.hit_rect)
 
-                elif tile == 11: # Spike with ground reverse
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0]
-                    hitbox_rect.y = row_idx * tile_size[1]
-                    self.hitbox_list.append(hitbox_rect)
-                    spike = Spikes(hitbox_rect.x + 7, hitbox_rect.y + 22, 'Vertical')
-                    self.spike_list.append(spike.hit_rect)
-                
-                elif tile == 12: # Spike left wall
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0]
-                    hitbox_rect.y = row_idx * tile_size[1] 
-                    self.hitbox_list.append(hitbox_rect)
-                    spike = Spikes(hitbox_rect.x + 23, hitbox_rect.y + 12, 'Sideways')
-                    self.spike_list.append(spike.hit_rect)
-                
-                elif tile == 13: # Spike right wall
-                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
-                    hitbox_rect = hitbox.get_rect()
-                    hitbox_rect.x = col_idx * tile_size[0] + 20
-                    hitbox_rect.y = row_idx * tile_size[1] 
-                    self.hitbox_list.append(hitbox_rect)
-                    spike = Spikes(hitbox_rect.x - 10, hitbox_rect.y + 12, 'Sideways')
-                    self.spike_list.append(spike.hit_rect)
-
-                elif tile == 14:  # Block 
+                elif tile == 6:  # Block 
                     block = Block(col_idx * tile_size[0], row_idx * tile_size[1])
                     self.block_list.append(block)
                 
-                elif tile == 15:  # Green Crystal 
+                elif tile == 7:  # Green Crystal 
                     grn_crystal = Green_Crystal(col_idx * tile_size[0], row_idx * tile_size[1])
                     self.grn_list.append(grn_crystal)
                 
-                elif tile == 16:  # Red Crystal
+                elif tile == 8:  # Red Crystal
                     red_crystal = Red_Crystal(col_idx * tile_size[0], row_idx * tile_size[1])
                     self.red_list.append(red_crystal)
                 
-                elif tile == 17: # Blue Crystal
+                elif tile == 9: # Blue Crystal
                     blue_crystal = Blue_Crystal(col_idx * tile_size[0], row_idx * tile_size[1])
                     self.blue_list.append(blue_crystal)
                 
-                elif tile == 18:  # Trampoline
+                elif tile == 10:  # Trampoline
                     trampoline = Trampoline(col_idx * tile_size[0], row_idx * tile_size[1])
                     self.tramp_list.append(trampoline)
                 
-                elif tile == 19:  # Strawberry
+                elif tile == 11:  # Strawberry
                     strawberry = Strawberry(col_idx * tile_size[0] + 5, row_idx * tile_size[1] + 5)
                     self.strawberry_list.append(strawberry)
                 
-                elif tile == 20:  # Flying Strawberry
+                elif tile == 12:  # Flying Strawberry
                     strawberry = Flying_Strawberry(col_idx * tile_size[0] + 5, row_idx * tile_size[1] + 5)
                     self.straw_fly_list.append(strawberry)
                 
-                elif tile == 21:  # Moveable Horizontal
+                elif tile == 13:  # Moveable Horizontal
                     moveable = Moveable(col_idx * tile_size[0], row_idx* tile_size[1] + 33, 'Horizontal')
                     self.moveable_list.append(moveable)
 
-                elif tile == 22: # Moveable Vertical
+                elif tile == 14: # Moveable Vertical
                     moveable = Moveable(col_idx * tile_size[0], row_idx* tile_size[1] + 33, 'Vertical')
                     self.moveable_list.append(moveable)
                 
-                elif tile == 23: # Wood
+                elif tile == 15: # Wood
                     wood = Platform(col_idx * tile_size[0], row_idx * tile_size[1] + 33)
                     self.wood_list.append(wood.rect)
+                
+                elif tile == 16: # Flag
+                    flag = Flag(col_idx * tile_size[0], row_idx * tile_size[1])
+                    self.flag_list.append(flag)
                     
                 col_idx += 1
             row_idx += 1
@@ -225,13 +145,77 @@ class Tile:
         
         for trampoline in self.tramp_list:
             pygame.draw.rect(screen, (255,255,255), trampoline.hit_rect, 2)
-
-        for sticky in self.sticky_list:
-            pygame.draw.rect(screen, (0,255,0), sticky.rect, 2)
         
         for moveable in self.moveable_list:
             pygame.draw.rect(screen, (255,255,255), moveable.rect, 2)
         
         for block in self.block_list:
             pygame.draw.rect(screen, (0,0,0), block.hit_rect, 2)
-        
+
+#################################################################
+
+# SAVING CODE IF GONNA USE IT
+
+#               elif tile == 2:  # Safe tile ground 
+#                   hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0]
+#                    hitbox_rect.y = row_idx * tile_size[1] + 20 
+#                    self.hitbox_list.append(hitbox_rect)
+#
+#                elif tile == 3: # Safe tile ground reverse
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0]
+#                    hitbox_rect.y = row_idx * tile_size[1]
+#                    self.hitbox_list.append(hitbox_rect)
+#                
+#                elif tile == 4: # Safe tile wall left
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0]
+#                    hitbox_rect.y = row_idx * tile_size[1] 
+#                    self.hitbox_list.append(hitbox_rect)
+#
+#                elif tile == 5: # Safe tile wall right
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0] + 20
+#                    hitbox_rect.y = row_idx * tile_size[1] 
+#                    self.hitbox_list.append(hitbox_rect)
+#                 
+#                elif tile == 10: # Spike with ground 
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0]
+#                    hitbox_rect.y = row_idx * tile_size[1] + 20 
+#                    self.hitbox_list.append(hitbox_rect)
+#                    spike = Spikes(hitbox_rect.x + 6, hitbox_rect.y - 10, 'Vertical')
+#                    self.spike_list.append(spike.hit_rect)
+#
+#                elif tile == 11: # Spike with ground reverse
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_ground'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0]
+#                    hitbox_rect.y = row_idx * tile_size[1]
+#                    self.hitbox_list.append(hitbox_rect)
+#                    spike = Spikes(hitbox_rect.x + 7, hitbox_rect.y + 22, 'Vertical')
+#                    self.spike_list.append(spike.hit_rect)
+#                
+#                elif tile == 12: # Spike left wall
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0]
+#                    hitbox_rect.y = row_idx * tile_size[1] 
+#                    self.hitbox_list.append(hitbox_rect)
+#                    spike = Spikes(hitbox_rect.x + 23, hitbox_rect.y + 12, 'Sideways')
+#                    self.spike_list.append(spike.hit_rect)
+#                
+#                elif tile == 13: # Spike right wall
+#                    hitbox = pygame.transform.scale(ichiban_cum, Hitbox['safe_wall'])
+#                    hitbox_rect = hitbox.get_rect()
+#                    hitbox_rect.x = col_idx * tile_size[0] + 20
+#                    hitbox_rect.y = row_idx * tile_size[1] 
+#                    self.hitbox_list.append(hitbox_rect)
+#                    spike = Spikes(hitbox_rect.x - 10, hitbox_rect.y + 12, 'Sideways')
+#                    self.spike_list.append(spike.hit_rect)

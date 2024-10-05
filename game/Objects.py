@@ -18,8 +18,8 @@ Hitbox = {
     'safe': tile_size,
     'safe_ground': (40,20),
     'safe_wall': (20,40),
-    'spike_vertical': (22, 8),
-    'spike_sideways': (8, 22),
+    'spike_vertical': (25, 20),
+    'spike_sideways': (20, 25),
     'block': tile_size,
     'crystal': (30,30),
     'reverse': (30,30),
@@ -78,12 +78,8 @@ class Green_Crystal:
 
     sprite = pygame.image.load('assets/sprites/spritesheet_green.png')
     sprites = SpriteSheet(sprite)
-    frames_list = []
+    frames_list = sprites.get_spritesheet(11, [16,16], (40,40), 'black')
     
-    for x in range(11):
-        
-        frames_list.append(sprites.get_image(x, 16, 16, (40,40), (0,0,0)))
-
     # Class
 
     def __init__(self, x, y, frames = frames_list):
@@ -166,12 +162,8 @@ class Red_Crystal(Green_Crystal):
 
     sprite = pygame.image.load('assets/sprites/spritesheet_red.png')
     sprites = SpriteSheet(sprite)
-    frames_list = []
+    frames_list = sprites.get_spritesheet(12, [16,16], (40,40), 'black')
     
-    for x in range(12):
-        
-        frames_list.append(sprites.get_image(x, 16, 16, (40,40), (0,0,0)))
-
     # Class
 
     def __init__(self, x, y, frames = frames_list):
@@ -204,11 +196,7 @@ class Trampoline:
 
     sprites = pygame.image.load('assets/sprites/Jumper.png')
     spritesheet = SpriteSheet(sprites)
-    frames_list = []
-
-    for x in range(0,8):
-
-        frames_list.append(spritesheet.get_image(x, 24, 16, tile_size, (0,0,0)))
+    frames_list = spritesheet.get_spritesheet(8, [24,16], (40,40), 'black')
 
     def __init__(self, x, y, frames_list = frames_list):
         
@@ -229,7 +217,7 @@ class Trampoline:
         self.cooldown = 25
         self.frame = 0
     
-    def draw(self, screen):
+    def update(self, screen):
 
         if not self.bolean:
             screen.blit(self.frames[0], self.img_rect)
@@ -278,11 +266,7 @@ class Block:
 
     sprite = pygame.image.load('assets/sprites/spritesheet_block.png')
     sprites = SpriteSheet(sprite)
-    frames_list = []
-    
-    for x in range(3):
-        
-        frames_list.append(sprites.get_image(x, 8, 8, (40,40), (0,0,0)))
+    frames_list = sprites.get_spritesheet(3, [8,8], (40,40), 'black')
 
     # Class
 
@@ -353,15 +337,11 @@ class Strawberry:
 
     sprite = pygame.image.load('assets/sprites/strawberry_spritesheet.png')
     sprites = SpriteSheet(sprite)
-    frames_display = []
-    frames_collected = []
+    frames_total = sprites.get_spritesheet(20, [18,16], (40,40), 'black')
+    frames_display = frames_total[:10]
+    frames_collected = frames_total[10:]
     
-    for x in range(20):
-        
-        if x <= 9:
-            frames_display.append(sprites.get_image(x, 18, 16, (40,40), (0,0,0)))
-        else:
-            frames_collected.append(sprites.get_image(x, 18, 16, (40,40), (0,0,0)))
+    # Class
 
     def __init__(self, x, y, frames_display = frames_display, frames_collected = frames_collected):
         
@@ -471,12 +451,10 @@ class Flying_Strawberry(Strawberry):
 
     sprite = pygame.image.load('assets/sprites/flying_straw.png')
     sprites = SpriteSheet(sprite)
-    frames_list = []
+    frames_list = sprites.get_spritesheet(10, [40,24], (80,60), 'black')
     
-    for x in range(10):
-        
-        frames_list.append(sprites.get_image(x, 40, 24, (80,60), (0,0,0)))
-    
+    # Class
+
     def __init__(self, x, y, frames = frames_list):
         # Inherit the strawberry class
         super().__init__(x, y)
@@ -529,11 +507,9 @@ class Moveable:
 
     sprite = pygame.image.load('assets/sprites/Moving Platfrom_A.png')
     sprites = SpriteSheet(sprite)
-    frames_list = []
+    frames_list = sprites.get_spritesheet(10, [32,8], (48,14), 'black')
     
-    for x in range(10):
-        
-        frames_list.append(sprites.get_image(x, 32, 8, (48,14), (0,0,0)))
+    # Class
 
     def __init__(self, x, y, direction, frames = frames_list):
         self.image = pygame.transform.scale(ichiban_cum, Hitbox['wood'])
@@ -565,12 +541,7 @@ class Moveable:
                 self.move_direction = -(self.move_direction)
 
         for tile in hitboxes['block']:
-            
-            if tile.hit_rect.colliderect(self.rect):
-                self.move_direction = -(self.move_direction)
-        
-        for tile in hitboxes['sticky']:
-            
+
             if tile.rect.colliderect(self.rect):
                 self.move_direction = -(self.move_direction)
         
@@ -591,3 +562,37 @@ class Moveable:
                 self.frame = 0
             
         screen.blit(self.frames[self.frame], self.rect)
+
+# Flag cosmetic
+
+class Flag:
+    
+    # Get sprites
+
+    sprite = pygame.image.load('assets/sprites/flag.png')
+    sprites = SpriteSheet(sprite)
+    sprites_list = sprites.get_spritesheet(3, [8,8], [40,40], 'black')
+    
+    # Class
+
+    def __init__(self, x, y, sprites_list = sprites_list):
+        self.rect = sprites_list[0].get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.sprites = sprites_list
+        self.frame = 0
+        self.last_update = pygame.time.get_ticks()
+        self.cooldown = 100
+    
+    def update(self, screen):
+
+        current_time = pygame.time.get_ticks()
+
+        if current_time - self.last_update >= self.cooldown:
+            self.frame += 1
+            self.last_update = current_time
+                
+            if self.frame == len(self.sprites):
+                self.frame = 0
+        
+        screen.blit(self.sprites[self.frame], self.rect)

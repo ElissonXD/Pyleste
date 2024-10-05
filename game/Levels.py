@@ -12,7 +12,7 @@ from Particles import *
 def initial_data(level, x, y):
     
     global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect, sfx, first_steps
-
+    
     # Screen, fps, player data
 
     width = 800
@@ -99,6 +99,11 @@ def update(tiles, strawberries, next_level, game_over, player, snow_vel):
     if player.rect.y < -10:
         next_level = True
 
+    # Update flag animation
+
+    for flag in tiles.tiles_dict['flag']:
+        flag.update(screen)
+
     # Shake logic
 
     # Dash shake
@@ -123,7 +128,6 @@ def update(tiles, strawberries, next_level, game_over, player, snow_vel):
             shake = [0, 0]
             shake_timer = 0
     
-    #tiles.draw(screen)
     # Particles, clock and shake
 
     clock.tick(60)
@@ -135,6 +139,37 @@ def update(tiles, strawberries, next_level, game_over, player, snow_vel):
     pygame.display.update()
 
     return game_over, strawberries, next_level
+
+# Draw objects after death
+
+def draw_objects(tile, screen, strawberries):
+          
+    for green in tile['green']:
+        green.update(screen)
+    
+    for red in tile['red']:
+        red.update(screen)
+    
+    for blue in tile['blue']:
+        blue.update(screen)
+    
+    for straw in tile['strawberry']:
+        straw.update(screen, strawberries)
+    
+    for straw in tile['flying_straw']:
+        straw.update(screen, strawberries)
+        straw.fly(screen)
+    
+    for trampoline in tile['trampoline']:
+        trampoline.update(screen)
+    
+    for moveable in tile['moveable']:
+        moveable.update(screen)
+    
+    for block in tile['block']:
+        block.update(screen)
+    
+    pygame.display.update()
 
 # Levels
 
@@ -153,7 +188,7 @@ def level_1(strawberries):
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -208,6 +243,10 @@ def level_1(strawberries):
             if next_level:
 
                 level_2(strawberries)
+            
+            if game_over:
+
+                draw_objects(tiles.tiles_dict, screen, strawberries)
 
     pygame.quit()
 
@@ -220,26 +259,26 @@ def level_2(strawberries):
         global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
 
         level_data = [
-        [0, 0, 1, 0, 0, 0, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        [0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0, 1, 6, 6, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 23, 23, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 15, 15, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 16, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
         [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
         [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 19, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 8, 0, 0, 0, 9, 1, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 8, 0, 0, 0, 9, 1, 0, 0]
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 11, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 4, 0, 0, 0, 5, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 4, 0, 0, 0, 5, 1, 0, 0]
     ]
         
         # Set background 
@@ -266,16 +305,247 @@ def level_2(strawberries):
             screen.blit(background_scale, back_rect)
             
             # Restart
+        
             if game_over and player.go_timer > 50:
-                
-                level_2(initial_straws)
             
+                level_2(initial_straws)
+                
             # Update
+            
             else: 
                 game_over, strawberries, next_level = update(tiles, strawberries, next_level, game_over, player, [-5, 7])
 
                 if next_level:
 
-                    level_2(strawberries)
+                    level_3(strawberries)
+            
+                if game_over:
+
+                    draw_objects(tiles.tiles_dict, screen, strawberries)
+
+        pygame.quit()
+
+def level_3(strawberries):
+    
+    # Initial data
+        
+        initial_data(300, 120, 620)
+
+        global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+
+        level_data = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 0, 0, 15, 15, 0, 0, 2, 2, 0, 0, 15, 15, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 1, 0],
+        [0, 0, 0, 16, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    ]
+        
+        # Set background 
+        
+        tiles = Tile(level_data)
+        background = pygame.image.load('assets/maps/level 3.png')
+        background_scale = pygame.transform.scale(background, (800, 800))
+        back_rect = background_scale.get_rect()
+        back_rect = pygame.Rect(0, 0, 45, 45)
+
+        # Strotage stawberries and next level
+
+        initial_straws = strawberries
+        next_level = False
+
+        # Game loop
+
+        while run:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit() 
+        
+            screen.blit(background_scale, back_rect)
+            
+            # Restart
+        
+            if game_over and player.go_timer > 50:
+            
+                level_3(initial_straws)
+                
+            # Update
+            
+            else: 
+                game_over, strawberries, next_level = update(tiles, strawberries, next_level, game_over, player, [-5, 7])
+
+                if next_level:
+
+                    level_4(strawberries)
+            
+                if game_over:
+
+                    draw_objects(tiles.tiles_dict, screen, strawberries)
+
+        pygame.quit()
+
+def level_4(strawberries):
+    
+    # Initial data
+        
+        initial_data(400, 640, 680)
+
+        global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+
+        level_data = [
+        [1, 4, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15, 0, 0, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 4, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 4, 0, 0],
+        [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 4, 0, 0],
+        [1, 4, 0, 0, 0, 0, 5, 1, 1, 1, 1, 1, 1, 1, 0, 5, 1, 4, 0, 0],
+        [1, 4, 0, 0, 0, 0, 5, 1, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 5, 1, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 5, 1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 4, 0, 5, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 16, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0]
+    ]
+        
+        # Set background 
+        
+        tiles = Tile(level_data)
+        background = pygame.image.load('assets/maps/level 4.png')
+        background_scale = pygame.transform.scale(background, (800, 800))
+        back_rect = background_scale.get_rect()
+        back_rect = pygame.Rect(0, 0, 45, 45)
+
+        # Strotage stawberries and next level
+
+        initial_straws = strawberries
+        next_level = False
+
+        # Game loop
+
+        while run:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit() 
+        
+            screen.blit(background_scale, back_rect)
+            
+            # Restart
+        
+            if game_over and player.go_timer > 50:
+            
+                level_4(initial_straws)
+                
+            # Update
+            
+            else: 
+                game_over, strawberries, next_level = update(tiles, strawberries, next_level, game_over, player, [-5, 7])
+
+                if next_level:
+
+                    level_5(strawberries)
+            
+                if game_over:
+
+                    draw_objects(tiles.tiles_dict, screen, strawberries)
+
+        pygame.quit()
+
+def level_5(strawberries):
+
+    # Initial data
+        
+        initial_data(500, 100, 700)
+
+        global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+
+        level_data = [
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 5, 1, 1, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 4, 0, 5, 1, 1, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 15, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 2, 2, 2, 2, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 4, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 11, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0]
+    ]
+        
+        # Set background 
+        
+        tiles = Tile(level_data)
+        background = pygame.image.load('assets/maps/level 5.png')
+        background_scale = pygame.transform.scale(background, (800, 800))
+        back_rect = background_scale.get_rect()
+        back_rect = pygame.Rect(0, 0, 45, 45)
+
+        # Strotage stawberries and next level
+
+        initial_straws = strawberries
+        next_level = False
+
+        # Game loop
+
+        while run:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit() 
+        
+            screen.blit(background_scale, back_rect)
+            
+            # Restart
+        
+            if game_over and player.go_timer > 50:
+            
+                level_5(initial_straws)
+                
+            # Update
+            
+            else: 
+                game_over, strawberries, next_level = update(tiles, strawberries, next_level, game_over, player, [-5, 7])
+
+                if next_level:
+
+                    level_5(strawberries)
+            
+                if game_over:
+
+                    draw_objects(tiles.tiles_dict, screen, strawberries)
 
         pygame.quit()

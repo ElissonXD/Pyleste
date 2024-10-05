@@ -13,3 +13,18 @@ class SpriteSheet:
 		image.set_colorkey(colour)
 
 		return image
+
+	def get_spritesheet(self, amount, size, scale, color, flip = False):
+		frames_list = []
+
+		for x in range(amount):
+
+			if flip:
+				image = self.get_image(x, size[0], size[1], scale, color)
+				frames_list.append(pygame.transform.flip(image, True, False))
+
+			else:
+				frames_list.append(self.get_image(x, size[0], size[1], scale, color))
+		
+		
+		return frames_list

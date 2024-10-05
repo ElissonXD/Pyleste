@@ -21,26 +21,23 @@ class Player:
     # Get sprites
 
     # Player sprites
-    sprite_red = pygame.image.load('assets/sprites/madeline_red.png') # Red sprites
+    # Red sprites
+    sprite_red = pygame.image.load('assets/sprites/madeline_red.png') 
     sprites_red = SpriteSheet(sprite_red)
-    frames_red_all = []
-    frames_red_all_flipped = []
-    sprite_blue = pygame.image.load('assets/sprites/madeline_blue.png') # Blue sprites
-    sprites_blue = SpriteSheet(sprite_blue)
-    frames_blue_all = []
-    frames_blue_all_flipped = []
-    sprite_green = pygame.image.load('assets/sprites/madeline_green.png') # Green sprites
-    sprites_green = SpriteSheet(sprite_green)
-    frames_green_all = []
-    frames_green_all_flipped = []
+    frames_red_all = sprites_red.get_spritesheet(7, [8,8], (30,30), 'black')
+    frames_red_all_flipped = sprites_red.get_spritesheet(7, [8,8], (30,30), 'black', True)
 
-    for x in range(7):
-        frames_red_all.append(sprites_red.get_image(x, 8, 8, (30,30), (0,0,0)))
-        frames_red_all_flipped.append(pygame.transform.flip(sprites_red.get_image(x, 8, 8, (30,30), (0,0,0)), True, False))
-        frames_blue_all.append(sprites_blue.get_image(x, 8, 8, (30,30), (0,0,0)))
-        frames_blue_all_flipped.append(pygame.transform.flip(sprites_blue.get_image(x, 8, 8, (30,30), (0,0,0)), True, False))
-        frames_green_all.append(sprites_green.get_image(x, 8, 8, (30,30), (0,0,0)))
-        frames_green_all_flipped.append(pygame.transform.flip(sprites_green.get_image(x, 8, 8, (30,30), (0,0,0)), True, False))
+    # Blue sprites
+    sprite_blue = pygame.image.load('assets/sprites/madeline_blue.png') 
+    sprites_blue = SpriteSheet(sprite_blue)
+    frames_blue_all = sprites_blue.get_spritesheet(7, [8,8], (30,30), 'black')
+    frames_blue_all_flipped = sprites_blue.get_spritesheet(7, [8,8], (30,30), 'black', True)
+    
+    # Green sprites
+    sprite_green = pygame.image.load('assets/sprites/madeline_green.png') 
+    sprites_green = SpriteSheet(sprite_green)
+    frames_green_all = sprites_green.get_spritesheet(7, [8,8], (30,30), 'black')
+    frames_green_all_flipped = sprites_green.get_spritesheet(7, [8,8], (30,30), 'black', True)
 
     all_sprites = {
                    'red': frames_red_all,
@@ -66,6 +63,8 @@ class Player:
 
     for sound in sfx:
         sfx[sound].set_volume(0.5)
+
+    # Class
 
     def __init__(self, x, y, all_sprites = all_sprites, sfx = sfx):
         
@@ -146,7 +145,7 @@ class Player:
         self.WJ_height = 5
 
         # Jump
-        self.jump = 7
+        self.jump = 5
         self.jump_timer = 0
         self.tramp_height = -10
         self.coyote_timer = 0
@@ -154,7 +153,7 @@ class Player:
         self.is_jumping = False
         
         # Dash
-        self.dash_speed = 7
+        self.dash_speed = 5
         self.dash_time = 10
         self.dash = True
         self.reverse = False
@@ -198,7 +197,7 @@ class Player:
                         self.dx -= 1
                     
                     else:
-                        self.dx -= 5
+                        self.dx -= 4
 
                     left = True
                     self.cooldown -= 1
@@ -215,7 +214,7 @@ class Player:
                         self.dx += 1
                     
                     else:
-                        self.dx += 5
+                        self.dx += 4
                     
                     right = True
                     self.cooldown -= 1
@@ -258,7 +257,7 @@ class Player:
                     self.sfx['jump_wall'].play()
 
                 if self.right_WJ:
-                    self.dx = -5 
+                    self.dx = - 4 
                     
                     if right_WJs == 1:
                         self.vel_y = -self.WJ_height
@@ -276,7 +275,7 @@ class Player:
                         screen.blit(self.all_walking['walk_green_flipped'][2], self.rect)
                 
                 elif self.left_WJ:
-                    self.dx = 5
+                    self.dx = 4
                     
                     if left_WJs == 1:
                         self.vel_y = -self.WJ_height
@@ -457,15 +456,12 @@ class Player:
                 else: 
                     
                     if down: 
-                        self.vel_y = 9
-
-                        if not right and not left and not up:
-                            screen.blit(self.looking_present[0], self.rect)
+                        self.vel_y = 7
                     
                     else:
                         
-                        if self.vel_y >= 7:
-                            self.vel_y = 7
+                        if self.vel_y >= 5:
+                            self.vel_y = 5
             
             self.dy += self.vel_y
 
@@ -479,86 +475,6 @@ class Player:
             self.can_WJ = False
             self.can_walk = False
                 
-            # Collision with tiles
-
-            for tile in tiles['hitbox']:
-                
-                # X direction
-                if tile.colliderect(self.rect.x + self.dx, self.rect.y, 30, 30):
-                    self.dx = 0
-                    self.is_WJ = False
-                    self.WJ_timer = 0
-
-                    # Wall Jump Logic
-                    if right and self.vel_y >= 0:
-                        self.can_WJ = True
-
-                        if self.stay >= 10:
-                            self.vel_y = 2
-                        
-                        else:
-                            self.vel_y = 0
-                            self.stay += 1
-                        
-                        screen.blit(self.wj_present, self.rect)
-
-                        if (key[pygame.K_x]) and not self.is_WJ:
-                            self.is_WJ = True
-                            self.right_WJ = True
-                            self.left_WJ = False
-                            self.jumped = True
-                            right_WJs += 1
-                            left_WJs = 0
-                            
-                            if right_WJs == 1:
-                                self.stay = 0
-                    
-                    elif left and self.vel_y >= 0:
-                        self.can_WJ = True
-            
-                        if self.stay >= 10:
-                            self.vel_y = 2
-                        
-                        else:
-                            self.vel_y = 0
-                            self.stay += 1
-                        
-                        screen.blit(self.wj_present, self.rect)
-                        
-                        if (key[pygame.K_x]) and not self.is_WJ:
-                            self.is_WJ = True
-                            self.left_WJ = True
-                            self.right_WJ = False
-                            self.jumped = True
-                            right_WJs = 0
-                            left_WJs += 1
-                            
-                            if left_WJs == 1:
-                                self.stay = 0
-    
-                # Y direction 
-                if tile.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
-                    
-                    if self.vel_y < 0:
-                        self.dy = tile.bottom - self.rect.top
-                        self.is_dashing = False
-                        self.is_jumping = False
-                        self.dash_timer = 0
-                        self.jump_timer = 0
-                        self.is_WJ = False
-                        self.WJ_timer = 0
-                        self.vel_y = 0
-                    
-                    elif self.vel_y >= 0: 
-                        self.dy = tile.top - self.rect.bottom
-                        self.dash = True
-                        self.jumped = False
-                        self.vel_y = 2
-                        self.can_walk = True
-                        right_WJs = 0
-                        left_WJs = 0 
-                        self.coyote_timer = 3
-
             # Colision with objects
 
             for tile in tiles['wood']: # Floating platforms
@@ -636,7 +552,7 @@ class Player:
         
                     tile.bolean = True
             
-                tile.draw(screen)
+                tile.update(screen)
 
             for tile in tiles['spike']: # Spikes
                 
@@ -778,9 +694,91 @@ class Player:
                             self.coyote_timer = 3
                         
                         if tile.direction == 'Horizontal':
-                            self.rect.x += tile.move_direction
+                            self.dx += tile.move_direction
                         
                 tile.update(tiles, screen)
+
+                        # Collision with tiles
+
+            # Collision with tiles
+
+            for tile in tiles['hitbox']:
+                
+                # X direction
+                if tile.colliderect(self.rect.x + self.dx, self.rect.y, 30, 30):
+                    self.dx = 0
+                    self.is_WJ = False
+                    self.WJ_timer = 0
+
+                    # Wall Jump Logic
+                    if right and self.vel_y >= 0:
+                        self.can_WJ = True
+
+                        if self.stay >= 10:
+                            self.vel_y = 2
+                        
+                        else:
+                            self.vel_y = 0
+                            self.stay += 1
+                        
+                        screen.blit(self.wj_present, self.rect)
+
+                        if (key[pygame.K_x]) and not self.is_WJ:
+                            self.is_WJ = True
+                            self.right_WJ = True
+                            self.left_WJ = False
+                            self.jumped = True
+                            right_WJs += 1
+                            left_WJs = 0
+                            
+                            if right_WJs == 1:
+                                self.stay = 0
+                    
+                    elif left and self.vel_y >= 0:
+                        self.can_WJ = True
+            
+                        if self.stay >= 10:
+                            self.vel_y = 2
+                        
+                        else:
+                            self.vel_y = 0
+                            self.stay += 1
+                        
+                        screen.blit(self.wj_present, self.rect)
+                        
+                        if (key[pygame.K_x]) and not self.is_WJ:
+                            self.is_WJ = True
+                            self.left_WJ = True
+                            self.right_WJ = False
+                            self.jumped = True
+                            right_WJs = 0
+                            left_WJs += 1
+                            
+                            if left_WJs == 1:
+                                self.stay = 0
+    
+                # Y direction 
+                if tile.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
+                    
+                    if self.vel_y < 0:
+                        self.dy = tile.bottom - self.rect.top
+                        self.is_dashing = False
+                        self.is_jumping = False
+                        self.dash_timer = 0
+                        self.jump_timer = 0
+                        self.is_WJ = False
+                        self.WJ_timer = 0
+                        self.vel_y = 0
+                    
+                    elif self.vel_y >= 0: 
+                        self.dy = tile.top - self.rect.bottom
+                        self.dash = True
+                        self.jumped = False
+                        self.vel_y = 2
+                        self.can_walk = True
+                        right_WJs = 0
+                        left_WJs = 0 
+                        self.coyote_timer = 3
 
             # Update sprites colors and reverse
             
@@ -910,6 +908,13 @@ class Player:
                     else:
                         screen.blit(self.frames_present[0], self.rect)
 
+            # Looking down sprites
+
+            if down:
+                
+                if not right and not left and not up and not self.is_WJ:
+                    screen.blit(self.looking_present[0], self.rect)
+
             # Check collision with borders
 
             if self.rect.left + self.dx < 0:
@@ -945,5 +950,10 @@ class Player:
             if self.go_timer >= 300:
                 self.go_timer = 0
                 game_over = False
+            
+            left_dash = False
+            right_dash = False
+            up_dash = False
+            down_dash = False
                 
         return game_over, strawberries
