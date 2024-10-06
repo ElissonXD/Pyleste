@@ -65,14 +65,21 @@ shake = [0,0]
 shake_timer = 0
 snow = Particles(0, 0, 80)
 snow.random_position([0,800], [0,800])
-
+time = 0
+hours = 0
+minutes = 0
+total_time = f'{hours}:{minutes}:{time}'
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 while rodar:
     
-    print(player.vel_y)
-    #print(player.dx)
+    #print(player.vel_y)
+    total_time = f'{hours}:{minutes}:{time}'
+    print(total_time)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit() 
+        if event.type == pygame.USEREVENT:
+            time += 1
     tela.blit(fundo, fundo_rect)
     #desenhar_matriz(tela, 20, 20, largura, altura)
     if game_over:
@@ -111,6 +118,16 @@ while rodar:
         tiles.draw(tela)
         snow.snowing('white', screen, [-5, 7])
         tela.blit(pygame.transform.scale(tela,(800,800)), shake)
+
+
+        if time == 60:
+            time = 0 
+            minutes += 1
+            change = True
+            if minutes == 60:
+                minutes = 0
+                hours += 1
+
         pygame.display.update()
     
 pygame.quit()

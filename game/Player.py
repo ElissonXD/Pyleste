@@ -167,7 +167,7 @@ class Player:
 
     def controls(self, tiles, screen, game_over, strawberries):
         
-        global gravity, left_dash, right_dash, down_dash, up_dash, right_WJs, left_WJs
+        global gravity, left_dash, right_dash, down_dash, up_dash
 
         if not self.is_floating:
             self.dx = 0
@@ -258,12 +258,7 @@ class Player:
 
                 if self.right_WJ:
                     self.dx = - 4 
-                    
-                    if right_WJs == 1:
-                        self.vel_y = -self.WJ_height
-                    
-                    else:
-                        self.vel_y = -3
+                    self.vel_y = -self.WJ_height
                     
                     if 'red' in self.sprite:
                         screen.blit(self.all_walking['walk_red_flipped'][2], self.rect)
@@ -276,12 +271,7 @@ class Player:
                 
                 elif self.left_WJ:
                     self.dx = 4
-                    
-                    if left_WJs == 1:
-                        self.vel_y = -self.WJ_height
-                    
-                    else:
-                        self.vel_y = -3
+                    self.vel_y = -self.WJ_height
 
                     if 'red' in self.sprite:
                         screen.blit(self.all_walking['walk_red'][2], self.rect)
@@ -590,10 +580,7 @@ class Player:
                                 self.right_WJ = True
                                 self.left_WJ = False
                                 self.jumped = True
-                                right_WJs += 1
-                                left_WJs = 0
-                                if right_WJs == 1:
-                                    self.stay = 0
+                                self.stay = 0
                         
                         elif left and self.vel_y >= 0:
                             self.can_WJ = True
@@ -611,10 +598,6 @@ class Player:
                                 self.right_WJ = False
                                 self.jumped = True
                                 self.stay = 0
-                                right_WJs = 0
-                                left_WJs += 1
-                                if left_WJs == 1:
-                                    self.stay = 0
                     
                     # Y direction 
                     
@@ -728,11 +711,7 @@ class Player:
                             self.right_WJ = True
                             self.left_WJ = False
                             self.jumped = True
-                            right_WJs += 1
-                            left_WJs = 0
-                            
-                            if right_WJs == 1:
-                                self.stay = 0
+                            self.stay = 0
                     
                     elif left and self.vel_y >= 0:
                         self.can_WJ = True
@@ -751,11 +730,7 @@ class Player:
                             self.left_WJ = True
                             self.right_WJ = False
                             self.jumped = True
-                            right_WJs = 0
-                            left_WJs += 1
-                            
-                            if left_WJs == 1:
-                                self.stay = 0
+                            self.stay = 0
     
                 # Y direction 
                 if tile.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):

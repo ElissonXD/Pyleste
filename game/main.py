@@ -6,4 +6,4 @@ from Particles import *
 from Levels import *
 
 # Start
-level_1(0)
+level_1(0, 0)

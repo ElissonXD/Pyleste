@@ -7,12 +7,20 @@ from Tile import *
 from random import *
 from Particles import *
 
+# Time
+global secs, minutes, hours
+secs = 0
+minutes = 0
+hours = 0
+
 # Initial data function
 
-def initial_data(level, x, y):
+def initial_data(level, x, y, deaths):
     
     global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect, sfx, first_steps
-    
+    global death_img, death_rect, death_print_aux, death_print_rect
+    global timer_print_aux, timer_rect
+
     # Screen, fps, player data
 
     width = 800
@@ -61,15 +69,31 @@ def initial_data(level, x, y):
 
     show_level = True
     show_timer = 100
-    font = pygame.font.Font('assets/ttf/pixel.ttf', 40)
+    font = pygame.font.Font('assets/ttf/pixel.ttf', 45)
     print_1 = f'{level}m'
     print_2 = font.render(print_1, False, (255,255,255))
     print_rect = pygame.Rect(350, 105, 200, 20)
     
-    # Timer and death
+    # Timer print
 
-    timer = 0 # work later
-    deaths = 0 # work later
+    pygame.time.set_timer(pygame.USEREVENT, 1000)
+    font_timer = pygame.font.Font('assets/ttf/pixel.ttf', 40)
+    timer_print = f'{hours}:{str(minutes).zfill(2)}:{str(secs).zfill(2)}'
+    timer_print_aux = font_timer.render(timer_print, False, 'white')
+    timer_rect = pygame.Rect(330, 0, 200, 20)
+    
+    # Deaths
+
+    deaths = deaths
+    death_img = pygame.image.load('assets/sprites/skull.png')
+    death_img = pygame.transform.scale(death_img, (30,30))
+    death_rect = death_img.get_rect()
+    death_rect.x = 361
+    death_rect.y = 148
+    death_print = f'x{deaths}'
+    font_death = pygame.font.Font('assets/ttf/pixel.ttf', 30)
+    death_print_aux = font_death.render(death_print, False, (255,255,255))
+    death_print_rect = pygame.Rect(393, 150, 200, 20)
 
 # Update
 
@@ -77,13 +101,21 @@ def update(tiles, strawberries, next_level, game_over, player, snow_vel):
 
     global show_level, show_timer, clock, shake, shake_timer, snow
 
-    # Show level logic
+    # Show level, deaths and timer
 
     if show_level:
         show_timer -= 1
-
-        pygame.draw.rect(screen, 'black', (0, 100, 800, 50))
+        
+        # Level and deaths
+        pygame.draw.rect(screen, 'black', (0, 100, 800, 80))
         screen.blit(print_2, print_rect)
+        screen.blit(death_img, death_rect)
+        screen.blit(death_print_aux, death_print_rect)
+
+        # Timer
+        pygame.draw.rect(screen, 'black', (310, 0, 200, 50))
+        screen.blit(timer_print_aux, timer_rect)
+
         
         if show_timer == 99:
             sfx['start_level'].play()
@@ -173,12 +205,13 @@ def draw_objects(tile, screen, strawberries):
 
 # Levels
 
-def level_1(strawberries):
+def level_1(strawberries, deaths):
 
     # Initial data
-    initial_data(100, 50, 250)
+    initial_data(100, 50, 250, deaths)
 
     global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect, sfx, musics
+    global secs, minutes, hours
 
     level_data = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
@@ -228,13 +261,24 @@ def level_1(strawberries):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit() 
+            
+            if event.type == pygame.USEREVENT:
+                secs += 1
+                
+                if secs == 60:
+                    secs = 0
+                    minutes += 1
+                    
+                    if minutes == 60:
+                        minutes = 0
+                        hours += 1
     
         screen.blit(background_scale, back_rect)
         
         # Restart
         if game_over and player.go_timer > 50:
-            
-            level_1(initial_straws)
+            deaths += 1
+            level_1(initial_straws, deaths)
         
         # Update
         else: 
@@ -242,7 +286,7 @@ def level_1(strawberries):
             
             if next_level:
 
-                level_2(strawberries)
+                level_2(strawberries, deaths)
             
             if game_over:
 
@@ -250,13 +294,14 @@ def level_1(strawberries):
 
     pygame.quit()
 
-def level_2(strawberries):
+def level_2(strawberries, deaths):
 
     # Initial data
         
-        initial_data(200, 20, 500)
+        initial_data(200, 20, 500, deaths)
 
         global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+        global secs, minutes, hours
 
         level_data = [
         [0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -299,16 +344,28 @@ def level_2(strawberries):
         while run:
 
             for event in pygame.event.get():
+                
                 if event.type == pygame.QUIT:
                     pygame.quit() 
+                
+                if event.type == pygame.USEREVENT:
+                    secs += 1
+                    
+                    if secs == 60:
+                        secs = 0
+                        minutes += 1
+                        
+                        if minutes == 60:
+                            hours += 1
+                            minutes = 0
         
             screen.blit(background_scale, back_rect)
             
             # Restart
         
             if game_over and player.go_timer > 50:
-            
-                level_2(initial_straws)
+                deaths += 1
+                level_2(initial_straws, deaths)
                 
             # Update
             
@@ -317,7 +374,7 @@ def level_2(strawberries):
 
                 if next_level:
 
-                    level_3(strawberries)
+                    level_3(strawberries, deaths)
             
                 if game_over:
 
@@ -325,13 +382,14 @@ def level_2(strawberries):
 
         pygame.quit()
 
-def level_3(strawberries):
+def level_3(strawberries, deaths):
     
     # Initial data
         
-        initial_data(300, 120, 620)
+        initial_data(300, 120, 620, deaths)
 
         global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+        global secs, minutes, hours
 
         level_data = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
@@ -374,16 +432,28 @@ def level_3(strawberries):
         while run:
 
             for event in pygame.event.get():
+                
                 if event.type == pygame.QUIT:
                     pygame.quit() 
+                
+                if event.type == pygame.USEREVENT:
+                    secs += 1
+                    
+                    if secs == 60:
+                        secs = 0
+                        minutes += 1
+                        
+                        if minutes == 60:
+                            hours += 1
+                            minutes = 0
         
             screen.blit(background_scale, back_rect)
             
             # Restart
         
             if game_over and player.go_timer > 50:
-            
-                level_3(initial_straws)
+                deaths += 1
+                level_3(initial_straws, deaths)
                 
             # Update
             
@@ -392,7 +462,7 @@ def level_3(strawberries):
 
                 if next_level:
 
-                    level_4(strawberries)
+                    level_4(strawberries, deaths)
             
                 if game_over:
 
@@ -400,13 +470,14 @@ def level_3(strawberries):
 
         pygame.quit()
 
-def level_4(strawberries):
+def level_4(strawberries, deaths):
     
     # Initial data
         
-        initial_data(400, 640, 680)
+        initial_data(400, 640, 680, deaths)
 
         global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+        global secs, minutes, hours
 
         level_data = [
         [1, 4, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -449,16 +520,28 @@ def level_4(strawberries):
         while run:
 
             for event in pygame.event.get():
+                
                 if event.type == pygame.QUIT:
                     pygame.quit() 
+                
+                if event.type == pygame.USEREVENT:
+                    secs += 1
+                    
+                    if secs == 60:
+                        secs = 0
+                        minutes += 1
+                        
+                        if minutes == 60:
+                            hours += 1
+                            minutes = 0
         
             screen.blit(background_scale, back_rect)
             
             # Restart
         
             if game_over and player.go_timer > 50:
-            
-                level_4(initial_straws)
+                deaths += 1
+                level_4(initial_straws, deaths)
                 
             # Update
             
@@ -467,7 +550,7 @@ def level_4(strawberries):
 
                 if next_level:
 
-                    level_5(strawberries)
+                    level_5(strawberries, deaths)
             
                 if game_over:
 
@@ -475,13 +558,14 @@ def level_4(strawberries):
 
         pygame.quit()
 
-def level_5(strawberries):
+def level_5(strawberries, deaths):
 
     # Initial data
         
-        initial_data(500, 100, 700)
+        initial_data(500, 100, 700, deaths)
 
         global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+        global secs, minutes, hours
 
         level_data = [
         [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
@@ -524,16 +608,28 @@ def level_5(strawberries):
         while run:
 
             for event in pygame.event.get():
+                
                 if event.type == pygame.QUIT:
                     pygame.quit() 
+                
+                if event.type == pygame.USEREVENT:
+                    secs += 1
+                    
+                    if secs == 60:
+                        secs = 0
+                        minutes += 1
+                        
+                        if minutes == 60:
+                            hours += 1
+                            minutes = 0
         
             screen.blit(background_scale, back_rect)
             
             # Restart
         
             if game_over and player.go_timer > 50:
-            
-                level_5(initial_straws)
+                deaths += 1
+                level_5(initial_straws, deaths)
                 
             # Update
             
@@ -542,10 +638,98 @@ def level_5(strawberries):
 
                 if next_level:
 
-                    level_5(strawberries)
+                    level_6(strawberries, deaths)
             
                 if game_over:
 
                     draw_objects(tiles.tiles_dict, screen, strawberries)
 
+        pygame.quit()
+
+def level_6(strawberries, deaths):
+
+    # Initial data
+        
+        initial_data(600, 720, 700, deaths)
+
+        global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect
+        global secs, minutes, hours
+
+        level_data = [
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [15, 15, 15, 15, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 4, 0, 0, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 4, 0, 0, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 5, 1, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 5, 1, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 4, 0, 0, 1, 0, 0, 1],
+        [0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 4, 0, 0, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 4, 0, 0, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 4, 0, 0, 1, 0, 0, 1],
+        [0, 0, 0, 0, 0, 11, 1, 0, 1, 0, 0, 0, 1, 0, 0, 5, 1, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 5, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 16, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+    ]
+        
+        # Set background 
+        
+        tiles = Tile(level_data)
+        background = pygame.image.load('assets/maps/level 6.png')
+        background_scale = pygame.transform.scale(background, (800, 800))
+        back_rect = background_scale.get_rect()
+        back_rect = pygame.Rect(0, 0, 45, 45)
+
+        # Strotage stawberries and next level
+
+        initial_straws = strawberries
+        next_level = False
+
+        # Game loop
+
+        while run:
+
+            for event in pygame.event.get():
+                
+                if event.type == pygame.QUIT:
+                    pygame.quit() 
+                
+                if event.type == pygame.USEREVENT:
+                    secs += 1
+                    
+                    if secs == 60:
+                        secs = 0
+                        minutes += 1
+                        
+                        if minutes == 60:
+                            hours += 1
+                            minutes = 0
+        
+            screen.blit(background_scale, back_rect)
+            
+            # Restart
+        
+            if game_over and player.go_timer > 50:
+                deaths += 1
+                level_6(initial_straws, deaths)
+                
+            # Update
+            
+            else: 
+                game_over, strawberries, next_level = update(tiles, strawberries, next_level, game_over, player, [-5, 7])
+
+                if next_level:
+
+                    level_6(strawberries, deaths)
+            
+                if game_over:
+
+                    draw_objects(tiles.tiles_dict, screen, strawberries)
+        
         pygame.quit()
