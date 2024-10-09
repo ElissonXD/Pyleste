@@ -42,7 +42,7 @@ fase = [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-    [1, 17, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [1, 17, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -51,11 +51,11 @@ fase = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
 tiles = Tile(fase)
-background = pygame.image.load('assets/maps/level 1.png')
+background = pygame.image.load('assets/maps/test level.png')
 fundo = pygame.transform.scale(background, (800, 800))
 fundo_rect = fundo.get_rect()
 fundo_rect = pygame.Rect(0, 0, 45, 45)
@@ -80,7 +80,6 @@ while rodar:
             pygame.quit() 
         if event.type == pygame.USEREVENT:
             time += 1
-    tela.blit(fundo, fundo_rect)
     #desenhar_matriz(tela, 20, 20, largura, altura)
     if game_over:
         game_over,strawberries = player.controls(tiles.tiles_dict, tela, game_over,strawberries)
@@ -116,9 +115,9 @@ while rodar:
             
         clock.tick(fps)
         tiles.draw(tela)
+        tela.blit(fundo, fundo_rect)
         snow.snowing('white', screen, [-5, 7])
         tela.blit(pygame.transform.scale(tela,(800,800)), shake)
-
 
         if time == 60:
             time = 0 

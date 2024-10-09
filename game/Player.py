@@ -68,6 +68,8 @@ class Player:
 
     def __init__(self, x, y, all_sprites = all_sprites, sfx = sfx):
         
+        global left_dash, right_dash, down_dash, up_dash
+
         # Coordenates and rect
         self.img = pygame.transform.scale(all_sprites['red'][0], (30,30))
         self.rect = self.img.get_rect()
@@ -147,19 +149,23 @@ class Player:
         # Jump
         self.jump = 5
         self.jump_timer = 0
-        self.tramp_height = -10
+        self.tramp_height = -9
         self.coyote_timer = 0
         self.jumped = False
         self.is_jumping = False
         
         # Dash
         self.dash_speed = 5
-        self.dash_time = 10
         self.dash = True
         self.reverse = False
         self.reverse_timer = 0
         self.is_dashing = False
         self.dash_timer = 0
+        self.no_dash = 0
+        left_dash = False
+        up_dash = False
+        down_dash = False
+        right_dash = False
 
         # Floating
         self.floating_timer = 300
@@ -290,7 +296,7 @@ class Player:
                 
             # Dash Logic
 
-            if key[pygame.K_c] and self.dash and not self.is_dashing and not self.is_floating:
+            if key[pygame.K_c] and self.dash and not self.is_dashing and not self.is_floating and self.no_dash == 0:
                 self.is_dashing = True
                 self.dash = False
                 self.is_jumping = False
@@ -353,7 +359,13 @@ class Player:
                 self.reverse = False
                 self.reverse_timer = 10
 
+            # Can't use dash for bug fixes
+            
+            if self.no_dash != 0:
+                self.no_dash -= 1
+
             # Dash animation    
+           
             if self.is_dashing:
                 self.dash_timer += 1
                 
@@ -464,7 +476,79 @@ class Player:
             
             self.can_WJ = False
             self.can_walk = False
+
+            # Collision with tiles
+
+            for tile in tiles['hitbox']:
                 
+                # X direction
+                if tile.colliderect(self.rect.x + self.dx, self.rect.y, 30, 30):
+                    self.dx = 0
+                    self.is_WJ = False
+                    self.WJ_timer = 0
+
+                    # Wall Jump Logic
+                    if right and self.vel_y >= 0:
+                        self.can_WJ = True
+
+                        if self.stay >= 10:
+                            self.vel_y = 2
+                        
+                        else:
+                            self.vel_y = 0
+                            self.stay += 1
+                        
+                        screen.blit(self.wj_present, self.rect)
+
+                        if (key[pygame.K_x]) and not self.is_WJ:
+                            self.is_WJ = True
+                            self.right_WJ = True
+                            self.left_WJ = False
+                            self.jumped = True
+                            self.stay = 0
+                    
+                    elif left and self.vel_y >= 0:
+                        self.can_WJ = True
+            
+                        if self.stay >= 10:
+                            self.vel_y = 2
+                        
+                        else:
+                            self.vel_y = 0
+                            self.stay += 1
+                        
+                        screen.blit(self.wj_present, self.rect)
+                        
+                        if (key[pygame.K_x]) and not self.is_WJ:
+                            self.is_WJ = True
+                            self.left_WJ = True
+                            self.right_WJ = False
+                            self.jumped = True
+                            self.stay = 0
+    
+                # Y direction 
+                if tile.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
+                    
+                    if self.vel_y < 0:
+                        self.dy = tile.bottom - self.rect.top
+                        self.is_dashing = False
+                        self.is_jumping = False
+                        self.dash_timer = 0
+                        self.jump_timer = 0
+                        self.is_WJ = False
+                        self.WJ_timer = 0
+                        self.vel_y = 0
+                    
+                    elif self.vel_y >= 0: 
+                        self.dy = tile.top - self.rect.bottom
+                        self.dash = True
+                        self.jumped = False
+                        self.vel_y = 2
+                        self.can_walk = True
+                        right_WJs = 0
+                        left_WJs = 0 
+                        self.coyote_timer = 3
+
             # Colision with objects
 
             for tile in tiles['wood']: # Floating platforms
@@ -527,19 +611,31 @@ class Player:
                 if tile.hit_rect.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
                     self.vel_y = self.tramp_height
                     self.dash = True
+                    self.is_dashing = False
+                    self.dash_timer = 0
+                    left_dash = False
+                    right_dash = False
+                    down_dash = False
+                    up_dash = False
                     self.jumped = True
                     self.is_jumping = True
-        
+                    self.no_dash = 5
                     tile.bolean = True
                 
                 # X direction
 
                 if tile.hit_rect.colliderect(self.rect.x + self.dx, self.rect.y, 30, 30):
                     self.vel_y = self.tramp_height
+                    self.is_dashing = False
+                    self.dash_timer = 0
+                    left_dash = False
+                    right_dash = False
+                    down_dash = False
+                    up_dash = False
                     self.dash = True
                     self.jumped = True
                     self.is_jumping = True
-        
+                    self.no_dash = 5
                     tile.bolean = True
             
                 tile.update(screen)
@@ -621,8 +717,6 @@ class Player:
                             self.jumped = False
                             self.vel_y = 2
                             self.can_walk = True
-                            right_WJs = 0
-                            left_WJs = 0 
                             self.coyote_timer = 3
             
                 tile.update(screen, (self.rect.x, self.rect.y + self.dy, 30, 30))
@@ -682,78 +776,6 @@ class Player:
                 tile.update(tiles, screen)
 
                         # Collision with tiles
-
-            # Collision with tiles
-
-            for tile in tiles['hitbox']:
-                
-                # X direction
-                if tile.colliderect(self.rect.x + self.dx, self.rect.y, 30, 30):
-                    self.dx = 0
-                    self.is_WJ = False
-                    self.WJ_timer = 0
-
-                    # Wall Jump Logic
-                    if right and self.vel_y >= 0:
-                        self.can_WJ = True
-
-                        if self.stay >= 10:
-                            self.vel_y = 2
-                        
-                        else:
-                            self.vel_y = 0
-                            self.stay += 1
-                        
-                        screen.blit(self.wj_present, self.rect)
-
-                        if (key[pygame.K_x]) and not self.is_WJ:
-                            self.is_WJ = True
-                            self.right_WJ = True
-                            self.left_WJ = False
-                            self.jumped = True
-                            self.stay = 0
-                    
-                    elif left and self.vel_y >= 0:
-                        self.can_WJ = True
-            
-                        if self.stay >= 10:
-                            self.vel_y = 2
-                        
-                        else:
-                            self.vel_y = 0
-                            self.stay += 1
-                        
-                        screen.blit(self.wj_present, self.rect)
-                        
-                        if (key[pygame.K_x]) and not self.is_WJ:
-                            self.is_WJ = True
-                            self.left_WJ = True
-                            self.right_WJ = False
-                            self.jumped = True
-                            self.stay = 0
-    
-                # Y direction 
-                if tile.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
-                    
-                    if self.vel_y < 0:
-                        self.dy = tile.bottom - self.rect.top
-                        self.is_dashing = False
-                        self.is_jumping = False
-                        self.dash_timer = 0
-                        self.jump_timer = 0
-                        self.is_WJ = False
-                        self.WJ_timer = 0
-                        self.vel_y = 0
-                    
-                    elif self.vel_y >= 0: 
-                        self.dy = tile.top - self.rect.bottom
-                        self.dash = True
-                        self.jumped = False
-                        self.vel_y = 2
-                        self.can_walk = True
-                        right_WJs = 0
-                        left_WJs = 0 
-                        self.coyote_timer = 3
 
             # Update sprites colors and reverse
             
@@ -921,14 +943,31 @@ class Player:
             
             if self.go_timer <= 15:
                 self.death_particle.death_circles(choice(color), screen)
-
-            if self.go_timer >= 300:
-                self.go_timer = 0
-                game_over = False
             
-            left_dash = False
-            right_dash = False
-            up_dash = False
-            down_dash = False
+            # Update tiles
+
+            for tile in tiles['green']:
+                tile.update(screen)
+            
+            for tile in tiles['red']:
+                tile.update(screen)
+            
+            for tile in tiles['blue']:
+                tile.update(screen)
+            
+            for tile in tiles['trampoline']:
+                tile.update(screen)
+            
+            for tile in tiles['block']:
+                tile.update(screen)
+            
+            for tile in tiles['moveable']:
+                tile.update(screen)
+            
+            for tile in tiles['strawberry']:
+                tile.update(screen, strawberries)
+            
+            for tile in tiles['flying_straw']:
+                tile.update(screen, strawberries)
                 
         return game_over, strawberries
