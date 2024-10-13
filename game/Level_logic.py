@@ -195,8 +195,9 @@ def level_logic(strawberries, deaths, data, index):
         sfx['wind1'].play(-1)
         first_steps.play(-1)
 
-    # Strotage stawberries and next level
+    # Strotage stawberries, next level and initial tile
 
+    initial_tiles = Tile(data[index][7])
     initial_straws = strawberries
     next_level = False
 
@@ -224,6 +225,7 @@ def level_logic(strawberries, deaths, data, index):
         # Restart
         if game_over and player.go_timer > 50:
             deaths += 1
+            data[index][5] = initial_tiles
             level_logic(initial_straws, deaths, data, index)
         
         # Update

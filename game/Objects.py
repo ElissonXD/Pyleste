@@ -18,8 +18,8 @@ Hitbox = {
     'safe': tile_size,
     'safe_ground': (40,20),
     'safe_wall': (20,40),
-    'spike_vertical': (25, 20),
-    'spike_sideways': (20, 25),
+    'spike_vertical': (20, 20),
+    'spike_sideways': (20, 20),
     'block': tile_size,
     'crystal': (30,30),
     'reverse': (30,30),
@@ -42,6 +42,8 @@ sound_effects = {
     'green_crystal_return': pygame.mixer.Sound('assets/sfx/diamond_return_01.wav'),
     'red_crystal_get': pygame.mixer.Sound('assets/sfx/diamond_touch_02.wav'),
     'red_crystal_return': pygame.mixer.Sound('assets/sfx/diamond_return_02.wav'),
+    'blue_crystal_get': pygame.mixer.Sound('assets/sfx/diamond_touch_03.wav'),
+    'blue_crystal_return': pygame.mixer.Sound('assets/sfx/diamond_return_03.wav'),
     'block_shake': pygame.mixer.Sound('assets/sfx/fallblock_shake.wav'),
     'block_broke': pygame.mixer.Sound('assets/sfx/platform_disintegrate_01.wav'),
     'strawberry_get': pygame.mixer.Sound('assets/sfx/strawberry_get.wav'),
@@ -171,20 +173,29 @@ class Red_Crystal(Green_Crystal):
         # Inherit the green crystal class
         super().__init__(x, y, frames)
         
-        # Change to red
+        # Change to red and sfx
         self.color = 'red'
         self.sound = [sound_effects['red_crystal_get'], sound_effects['red_crystal_return']]
 
 # Blue Crystal (Flight)
 
 class Blue_Crystal(Green_Crystal):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        
-        # Color
-        self.color = 'blue'
+    
+    global Hitbox
 
-        # Sfx
+    # Get sprites
+
+    sprite = pygame.image.load('assets/sprites/spritesheet_blue.png')
+    sprites = SpriteSheet(sprite)
+    frames_list = sprites.get_spritesheet(11, [16,16], (40,40), 'black')
+
+    def __init__(self, x, y, frames = frames_list):
+        super().__init__(x, y, frames)
+        
+        # Change color to blue and sfx
+        self.color = 'blue'
+        self.sound = [sound_effects['blue_crystal_get'], sound_effects['blue_crystal_return']]
+
 
 # Trampoline tile
 

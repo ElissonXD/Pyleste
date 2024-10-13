@@ -158,7 +158,6 @@ class Player:
         self.dash_speed = 5
         self.dash = True
         self.reverse = False
-        self.reverse_timer = 0
         self.is_dashing = False
         self.dash_timer = 0
         self.no_dash = 0
@@ -168,7 +167,7 @@ class Player:
         right_dash = False
 
         # Floating
-        self.floating_timer = 300
+        self.floating_timer = 0
         self.is_floating = False
 
     def controls(self, tiles, screen, game_over, strawberries):
@@ -192,42 +191,55 @@ class Player:
         
             key = pygame.key.get_pressed()
             
-            if key[pygame.K_LEFT] and not self.is_dashing and not self.is_WJ:
+            if key[pygame.K_LEFT]:
                 
-                if self.reverse_timer > 0 and right_dash:
-                    self.reverse_timer -= 1
-                
-                else:
-
+                if not self.is_dashing and not self.is_WJ:
+                        
                     if self.is_floating:
                         self.dx -= 1
+                        self.flip = True
                     
                     else:
-                        self.dx -= 4
+                        
+                        if self.reverse:
+                            self.dx += 4
+                            self.flip = False
+                        
+                        else:
+                            self.dx -= 4
+                            self.flip = True
 
-                    left = True
-                    self.cooldown -= 1
-                    self.flip = True
+                self.cooldown -= 1                
+                left = True
             
-            if key[pygame.K_RIGHT] and not self.is_dashing and not self.is_WJ:
+            if key[pygame.K_RIGHT]:
                 
-                if self.reverse_timer > 0 and left_dash:
-                    self.reverse_timer -= 1
-                
-                else:
-                    
+                if not self.is_dashing and not self.is_WJ:
+
                     if self.is_floating:
                         self.dx += 1
+                        self.flip = False
                     
                     else:
-                        self.dx += 4
+
+                        if self.reverse:
+                            self.dx -= 4
+                            self.flip = True
+                        
+                        else:
+                            self.dx += 4
+                            self.flip = False
                     
-                    right = True
-                    self.cooldown -= 1
-                    self.flip = False
+                self.cooldown -= 1
+                right = True
             
             if key[pygame.K_UP]:
-                up = True
+                
+                if self.reverse:
+                    down = True
+                
+                else:
+                    up = True
 
                 if not left and not right:
                     screen.blit(self.looking_present[1], self.rect)
@@ -238,8 +250,13 @@ class Player:
                 self.is_jumping = True
             
             if key[pygame.K_DOWN] and not self.is_floating:
-                down = True
-            
+                
+                if self.reverse:
+                    up = True
+                
+                else:
+                    down = True
+
             # Jump Logic
 
             if self.is_jumping:
@@ -253,6 +270,65 @@ class Player:
                     self.jump_timer = 0
                 
                 screen.blit(self.looking_present[1], self.rect)
+                
+            # Dash Logic
+
+            if key[pygame.K_c] and self.dash and not self.is_dashing and not self.is_floating and self.no_dash == 0:
+                self.is_dashing = True
+                self.dash = False
+                self.is_jumping = False
+                self.jump_timer = 0
+                self.jumped = True
+                self.is_WJ = False
+                self.WJ_timer = 0
+                self.screen_shake = True
+                
+                if left:
+                    
+                    if self.reverse:
+                        self.dx = self.dash_speed
+                        right_dash = True
+                    
+                    else:
+                        self.dx = -self.dash_speed
+                        left_dash = True
+                
+                if right:
+                    
+                    if self.reverse:
+                        self.dx = -self.dash_speed
+                        left_dash = True     
+                    
+                    else:
+                        self.dx = self.dash_speed
+                        right_dash = True
+                
+                if down:
+                    
+                    self.vel_y = self.dash_speed 
+                    down_dash = True
+                
+                if up:
+                    
+                    self.vel_y = -self.dash_speed 
+                    up_dash = True
+                
+                if not left and not up and not right and not down:
+                    
+                    if self.reverse:
+                        self.vel_y = self.dash_speed 
+                        down_dash = True                     
+                    
+                    else:
+                        self.vel_y = -self.dash_speed 
+                        up_dash = True
+                
+                self.reverse = False
+
+            # Can't use dash for bug fixes
+            
+            if self.no_dash != 0:
+                self.no_dash -= 1
 
             # Is Wall Jumping
 
@@ -293,76 +369,6 @@ class Player:
                     self.is_WJ = False
                     self.right_WJ = False
                     self.left_WJ = False
-                
-            # Dash Logic
-
-            if key[pygame.K_c] and self.dash and not self.is_dashing and not self.is_floating and self.no_dash == 0:
-                self.is_dashing = True
-                self.dash = False
-                self.is_jumping = False
-                self.jump_timer = 0
-                self.jumped = True
-                self.is_WJ = False
-                self.WJ_timer = 0
-                self.screen_shake = True
-                
-                if left:
-                    
-                    if self.reverse:
-                        self.dx = self.dash_speed
-                        right_dash = True
-                    
-                    else:
-                        self.dx = -self.dash_speed
-                        left_dash = True
-                
-                if right:
-                    
-                    if self.reverse:
-                        self.dx = -self.dash_speed
-                        left_dash = True     
-                    
-                    else:
-                        self.dx = self.dash_speed
-                        right_dash = True
-                
-                if down:
-                    
-                    if self.reverse:
-                        self.vel_y = -self.dash_speed 
-                        up_dash = True
-                    
-                    else:
-                        self.vel_y = self.dash_speed 
-                        down_dash = True
-                
-                if up:
-                    
-                    if self.reverse:
-                        self.vel_y = self.dash_speed 
-                        down_dash = True                
-                    
-                    else:
-                        self.vel_y = -self.dash_speed 
-                        up_dash = True
-                
-                if not left and not up and not right and not down:
-                    
-                    if self.reverse:
-                        self.vel_y = self.dash_speed 
-                        down_dash = True                     
-                    
-                    else:
-                        self.vel_y = -self.dash_speed 
-                        up_dash = True
-                
-                self.reverse = False
-                self.reverse_timer = 10
-
-            # Can't use dash for bug fixes
-            
-            if self.no_dash != 0:
-                self.no_dash -= 1
 
             # Dash animation    
            
@@ -438,11 +444,11 @@ class Player:
                     else:
                         self.dx = 0
 
-                if self.dx <= -5:
-                    self.dx = -5
+                if self.dx <= -4:
+                    self.dx = -4
                 
-                if self.dx >= 5:
-                    self.dx = 5
+                if self.dx >= 4:
+                    self.dx = 4
 
                 if self.floating_timer <= 0:
                     self.is_floating = False
@@ -452,18 +458,8 @@ class Player:
             if not self.is_dashing and not self.is_jumping and not self.can_WJ and not self.is_WJ and not self.is_floating:
                 self.vel_y += gravity
                 
-                if self.reverse_timer > 0:
-                    self.reverse_timer -= 1 
-                
-                else: 
-                    
-                    if down: 
-                        self.vel_y = 7
-                    
-                    else:
-                        
-                        if self.vel_y >= 5:
-                            self.vel_y = 5
+                if self.vel_y >= 5:
+                    self.vel_y = 5
             
             self.dy += self.vel_y
 
@@ -488,7 +484,7 @@ class Player:
                     self.WJ_timer = 0
 
                     # Wall Jump Logic
-                    if right and self.vel_y >= 0:
+                    if right and self.vel_y >= 0 and not self.is_dashing:
                         self.can_WJ = True
 
                         if self.stay >= 10:
@@ -502,12 +498,19 @@ class Player:
 
                         if (key[pygame.K_x]) and not self.is_WJ:
                             self.is_WJ = True
-                            self.right_WJ = True
-                            self.left_WJ = False
+
+                            if self.reverse:
+                                self.right_WJ = False
+                                self.left_WJ = True
+                            
+                            else:
+                                self.right_WJ = True
+                                self.left_WJ = False
+
                             self.jumped = True
                             self.stay = 0
                     
-                    elif left and self.vel_y >= 0:
+                    elif left and self.vel_y >= 0 and not self.is_dashing:
                         self.can_WJ = True
             
                         if self.stay >= 10:
@@ -521,8 +524,15 @@ class Player:
                         
                         if (key[pygame.K_x]) and not self.is_WJ:
                             self.is_WJ = True
-                            self.left_WJ = True
-                            self.right_WJ = False
+
+                            if self.reverse:
+                                self.left_WJ = False
+                                self.right_WJ = True
+                            
+                            else: 
+                                self.left_WJ = True
+                                self.right_WJ = False
+
                             self.jumped = True
                             self.stay = 0
     
@@ -532,6 +542,10 @@ class Player:
                     if self.vel_y < 0:
                         self.dy = tile.bottom - self.rect.top
                         self.is_dashing = False
+                        left_dash = False
+                        right_dash = False
+                        up_dash = False
+                        down_dash = False
                         self.is_jumping = False
                         self.dash_timer = 0
                         self.jump_timer = 0
@@ -576,6 +590,7 @@ class Player:
                         self.dash = True
                         tile.data[2] = False
                         self.screen_shake = True
+                        self.reverse = False
                 
                 tile.update(screen)
 
@@ -600,7 +615,8 @@ class Player:
                         self.dash = True
                         tile.data[2] = False
                         self.screen_shake = True
-                        self.floating_timer = 300
+                        self.floating_timer = 130
+                        self.reverse = False
                 
                 tile.update(screen)
 
@@ -661,7 +677,7 @@ class Player:
                         self.WJ_timer = 0
 
                         # Wall Jump Logic
-                        if right and self.vel_y >= 0:
+                        if right and self.vel_y >= 0 and not self.is_dashing:
                             self.can_WJ = True
             
                             if self.stay >= 10:
@@ -678,7 +694,7 @@ class Player:
                                 self.jumped = True
                                 self.stay = 0
                         
-                        elif left and self.vel_y >= 0:
+                        elif left and self.vel_y >= 0 and not self.is_dashing:
                             self.can_WJ = True
                         
                             if self.stay >= 10:
@@ -703,6 +719,10 @@ class Player:
                             tile.data[1] = False
                             self.dy = tile.data[0].bottom - self.rect.top
                             self.is_dashing = False
+                            left_dash = False
+                            right_dash = False
+                            up_dash = False
+                            down_dash = False
                             self.is_jumping = False
                             self.dash_timer = 0
                             self.jump_timer = 0
@@ -793,6 +813,23 @@ class Player:
             
             if self.reverse:
                 self.sprite = 'green'
+
+            if self.is_floating:
+                
+                if self.floating_timer >= 50:
+                    self.sprite = 'blue'
+                
+                elif 50 > self.floating_timer and self.floating_timer >= 30:
+                    self.sprite = 'red'
+                
+                elif 20 > self.floating_timer and self.floating_timer >= 10:
+                    self.sprite = 'blue'
+
+                elif 10 > self.floating_timer and self.floating_timer >= 5:
+                    self.sprite = 'red'
+                
+                else:
+                    self.sprite = 'blue'
 
             if self.flip:
                 self.sprite += '_flipped'
@@ -899,7 +936,7 @@ class Player:
                 
                 if self.vel_y >= 0:
                     
-                    if self.vel_y >= 6.5:
+                    if self.vel_y >= 4.5:
                         screen.blit(self.looking_present[0], self.rect)
                     
                     else:
@@ -959,7 +996,7 @@ class Player:
                 tile.update(screen)
             
             for tile in tiles['block']:
-                tile.update(screen)
+                tile.update(screen, self.rect)
             
             for tile in tiles['moveable']:
                 tile.update(screen)

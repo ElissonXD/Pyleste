@@ -55,19 +55,19 @@ class Tile:
                     self.hitbox_list.append(hitbox_rect)
 
                 elif tile == 2:  # Spike tile up
-                        spike = Spikes(col_idx * tile_size[0] + 5, row_idx * tile_size[1] + 20, 'Vertical')
+                        spike = Spikes(col_idx * tile_size[0] + 8, row_idx * tile_size[1] + 20, 'Vertical')
                         self.spike_list.append(spike.hit_rect)
                     
                 elif tile == 3: # Spike tile down
-                    spike = Spikes(col_idx * tile_size[0] + 5, row_idx * tile_size[1], 'Vertical')
+                    spike = Spikes(col_idx * tile_size[0] + 8, row_idx * tile_size[1], 'Vertical')
                     self.spike_list.append(spike.hit_rect)
 
                 elif tile == 4: # Spike tile left
-                    spike = Spikes(col_idx * tile_size[0], row_idx * tile_size[1] + 9, 'Sideways')
+                    spike = Spikes(col_idx * tile_size[0], row_idx * tile_size[1] + 12, 'Sideways')
                     self.spike_list.append(spike.hit_rect)
 
                 elif tile == 5: # Spike tile right
-                    spike = Spikes(col_idx * tile_size[0] + 20, row_idx * tile_size[1] + 9, 'Sideways')
+                    spike = Spikes(col_idx * tile_size[0] + 20, row_idx * tile_size[1] + 12, 'Sideways')
                     self.spike_list.append(spike.hit_rect)
 
                 elif tile == 6:  # Block 
