@@ -41,7 +41,7 @@ fase = [
     [1, 0, 0, 0, 0, 19, 17, 0, 18, 1, 16, 1, 0, 1, 0, 0, 0, 0, 0, 0],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
     [1, 0, 8, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 14, 0, 0, 0, 0, 0, 21, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
     [1, 17, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -74,7 +74,7 @@ while rodar:
     
     #print(player.vel_y)
     total_time = f'{hours}:{minutes}:{time}'
-    print(player.reverse_tolerance)
+    #print(player.reverse_tolerance)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit() 
@@ -113,7 +113,7 @@ while rodar:
                 shake = [0, 0]
                 shake_timer = 0
             
-        clock.tick(fps)
+        clock.tick(5)
         tiles.draw(tela)
         snow.snowing('white', screen, [-5, 7])
 

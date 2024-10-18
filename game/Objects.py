@@ -527,7 +527,7 @@ class Moveable:
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.move_direction = 1
+        self.move_direction = 1.75
         self.move_counter = 0
         self.direction = direction
 
@@ -553,14 +553,20 @@ class Moveable:
 
         for tile in hitboxes['block']:
 
-            if tile.rect.colliderect(self.rect):
+            if tile.hit_rect.colliderect(self.rect) and tile.data[1]:
                 self.move_direction = -(self.move_direction)
         
         for tile in hitboxes['trampoline']:
             
             if tile.hit_rect.colliderect(self.rect):
                 self.move_direction = -(self.move_direction)
-
+        
+        if (self.rect.right >= 800 + 2 or self.rect.left <= 0) and self.direction == 'Horizontal':
+            self.move_direction = -(self.move_direction)
+        
+        if (self.rect.y >= 800 or self.rect.y <= 0) and self.direction == 'Vertical':
+            self.move_direction = -(self.move_direction)
+        
         # Animation
     
         current_time = pygame.time.get_ticks()

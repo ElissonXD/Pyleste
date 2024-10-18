@@ -473,6 +473,27 @@ class Player:
             self.can_WJ = False
             self.can_walk = False
 
+            for tile in tiles['moveable']: # Moveable platforms
+                
+                if tile.rect.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
+                    
+                    if self.rect.bottom < tile.rect.centery + 3:
+                        
+                        if self.vel_y >= 0:
+                            self.dy = 0
+                            self.rect.bottom = tile.rect.top
+                            self.dash = True
+                            self.jumped = False
+                            self.can_walk = True
+                            self.coyote_timer = 3
+                            
+                        
+                        if tile.direction == 'Horizontal':
+                            self.dx += tile.move_direction
+                            self.vel_y = 2
+                        
+                tile.update(tiles, screen)
+
             # Collision with tiles
 
             for tile in tiles['hitbox']:
@@ -569,7 +590,7 @@ class Player:
                 
                 if tile.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
                     
-                    if self.rect.bottom < tile.centery:
+                    if self.rect.bottom < tile.centery + 5:
                         
                         if self.vel_y >= 0:
                             self.dy = 0
@@ -773,30 +794,6 @@ class Player:
                 tile.update(screen,strawberries)
                 tile.fly(screen)
             
-            for tile in tiles['moveable']: # Moveable platforms
-                
-                if tile.rect.colliderect(self.rect.x, self.rect.y + self.dy, 30, 30):
-                    
-                    if self.rect.bottom < tile.rect.centery:
-                        
-                        if self.vel_y >= 0:
-                            self.dy = 0
-                            self.rect.bottom = tile.rect.top
-                            self.dash = True
-                            self.jumped = False
-                            self.vel_y = 2
-                            self.can_walk = True
-                            right_WJs = 0
-                            left_WJs = 0 
-                            self.coyote_timer = 3
-                        
-                        if tile.direction == 'Horizontal':
-                            self.dx += tile.move_direction
-                        
-                tile.update(tiles, screen)
-
-                        # Collision with tiles
-
             # Update sprites colors and reverse
             
             if self.can_walk:
@@ -999,7 +996,7 @@ class Player:
                 tile.update(screen, self.rect)
             
             for tile in tiles['moveable']:
-                tile.update(screen)
+                tile.update(tiles, screen)
             
             for tile in tiles['strawberry']:
                 tile.update(screen, strawberries)
