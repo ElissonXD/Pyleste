@@ -196,7 +196,7 @@ def update(tiles, strawberries, next_level, game_over, player, snow_vel, fake = 
         if show_timer <= 0:
             show_level = False
 
-    tiles.draw(screen)
+    #tiles.draw(screen)
     pygame.display.update()
 
     return game_over, strawberries, next_level
