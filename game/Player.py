@@ -240,9 +240,6 @@ class Player:
                 
                 else:
                     up = True
-
-                if not left and not right:
-                    screen.blit(self.looking_present[1], self.rect)
             
             if key[pygame.K_x] and not self.jumped:
                 self.vel_y = -self.jump
@@ -505,7 +502,7 @@ class Player:
                     self.WJ_timer = 0
 
                     # Wall Jump Logic
-                    if right and self.vel_y >= 0 and not self.is_dashing:
+                    if right and self.vel_y >= 0 and not self.is_dashing and not self.is_floating:
                         self.can_WJ = True
 
                         if self.stay >= 10:
@@ -531,7 +528,7 @@ class Player:
                             self.jumped = True
                             self.stay = 0
                     
-                    elif left and self.vel_y >= 0 and not self.is_dashing:
+                    elif left and self.vel_y >= 0 and not self.is_dashing and not self.is_floating:
                         self.can_WJ = True
             
                         if self.stay >= 10:
@@ -599,8 +596,6 @@ class Player:
                             self.vel_y = 2
                             self.can_walk = True
                             self.jumped = False
-                            right_WJs = 0
-                            left_WJs = 0 
                             self.coyote_timer = 3
 
             for tile in tiles['green']: # Green Crystals
@@ -939,12 +934,17 @@ class Player:
                     else:
                         screen.blit(self.frames_present[0], self.rect)
 
-            # Looking down sprites
+            # Looking up and down sprites
 
             if down:
                 
                 if not right and not left and not up and not self.is_WJ:
                     screen.blit(self.looking_present[0], self.rect)
+
+            if up:
+
+                if not left and not right:
+                    screen.blit(self.looking_present[1], self.rect)
 
             # Check collision with borders
 

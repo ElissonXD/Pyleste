@@ -14,11 +14,51 @@ secs = 0
 minutes = 0
 hours = 0
 
+# Music and Sfx
+
+global sfx, musics
+
+# Sfx
+
+wind_1 = pygame.mixer.Sound('assets/sfx/wind_1.wav')
+wind_2 = pygame.mixer.Sound('assets/sfx/wind_2.wav')
+start_level = pygame.mixer.Sound('assets/sfx/start_level.wav')
+wind_1.set_volume(0.1)
+wind_2.set_volume(0.1)
+
+sfx = {'wind1': wind_1,
+        'wind2': wind_2,
+        'start_level': start_level}
+
+# Music
+
+first_steps = pygame.mixer.Sound('assets/music/first_steps.mp3')
+first_steps_b_side = pygame.mixer.Sound('assets/music/first_steps_b side.mp3')
+reach_summit = pygame.mixer.Sound('assets/music/reach_summit.mp3')
+
+first_steps.set_volume(0.3)
+first_steps_b_side.set_volume(0.3)
+reach_summit.set_volume(0.3)
+
+musics = {
+    'first_steps': first_steps,
+    'first_steps_b side': first_steps_b_side,
+    'reach_summit': reach_summit
+    }
+
+# Music boleans
+
+global music1, music2, music3
+
+music1 = False
+music2 = False
+music3 = False
+
 # Initial data function
 
 def initial_data(level, x, y, deaths):
     
-    global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect, sfx, first_steps
+    global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect, sfx, musics
     global death_img, death_rect, death_print_aux, death_print_rect
     global timer_print_aux, timer_rect
 
@@ -42,24 +82,6 @@ def initial_data(level, x, y, deaths):
     shake_timer = 0
     snow = Particles(0, 0, 80)
     snow.random_position([0,800], [0,800])
-
-    # Sfx
-
-    wind_1 = pygame.mixer.Sound('assets/sfx/wind_1.wav')
-    wind_2 = pygame.mixer.Sound('assets/sfx/wind_2.wav')
-    start_level = pygame.mixer.Sound('assets/sfx/start_level.wav')
-    wind_1.set_volume(0.1)
-    wind_2.set_volume(0.1)
-
-    sfx = {'wind1': wind_1,
-           'wind2': wind_2,
-           'start_level': start_level}
-
-    # Music
-
-    first_steps = pygame.mixer.Sound('assets/music/first_steps.mp3')
-
-    first_steps.set_volume(0.3)
 
     # Loops
 
@@ -174,7 +196,7 @@ def update(tiles, strawberries, next_level, game_over, player, snow_vel, fake = 
         if show_timer <= 0:
             show_level = False
 
-    #tiles.draw(screen)
+    tiles.draw(screen)
     pygame.display.update()
 
     return game_over, strawberries, next_level
@@ -188,13 +210,36 @@ def level_logic(strawberries, deaths, data, index):
 
     global width, height, player, screen, clock, shake, shake_timer, snow, game_over, run, show_level, show_timer, font, print_1, print_2, print_rect, sfx, musics
     global secs, minutes, hours
+    global music1, music2, music3 
 
     # Music
 
-    if index == 1:
+    if index <= 13 and not music1:
         sfx['wind1'].play(-1)
-        first_steps.play(-1)
+        musics['first_steps'].play(-1)
+        
+        music1 = True
+    
+    if index > 13 and index <= 26 and not music2:
+        musics['first_steps'].stop()
+        
+        musics['first_steps_b side'].play(-1)
+        
+        music2 = True
+    
+    if index > 26 and index <= 39 and not music3:
+        musics['first_steps_b side'].stop()
+        sfx['wind1'].stop()
+        
+        musics['reach_summit'].play(-1)
+        sfx['wind2'].play(-1)
 
+        music3 = True
+    
+    if index == 40:
+        musics['first_steps_b side'].stop()
+        musics['reach_summit'].fadeout(5000)
+    
     # Strotage stawberries, next level and initial tile
 
     initial_tiles = Tile(data[index][7])
@@ -230,8 +275,17 @@ def level_logic(strawberries, deaths, data, index):
         
         # Update
         else:
+            
+            if index <= 13: # Slow snow
+                snow_vel = [-5,7]
 
-            game_over, strawberries, next_level = update(data[index][5], strawberries, next_level, game_over, player, [-5, 7], data[index][6])
+            if index > 13 and index <= 26: # Medium snow
+                snow_vel = [-10,14]
+            
+            if index > 26 and index <= 40: # Fast Snow
+                snow_vel = [-14, 21]
+
+            game_over, strawberries, next_level = update(data[index][5], strawberries, next_level, game_over, player, snow_vel, data[index][6])
             
             if next_level:
                 index += 1

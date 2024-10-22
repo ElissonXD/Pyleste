@@ -7,4 +7,4 @@ from Level_logic import *
 from Level_data import *
 
 # Start
-level_logic(0, 0, all_levels, 32)
+level_logic(0, 0, all_levels, 39)
