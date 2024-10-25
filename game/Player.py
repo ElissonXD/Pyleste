@@ -168,6 +168,11 @@ class Player:
         down_dash = False
         right_dash = False
 
+        # Inertia
+        self.inertia = False
+        self.left_inertia = False
+        self.right_inertia = False
+
         # Floating
         self.floating_timer = 0
         self.is_floating = False
@@ -176,7 +181,32 @@ class Player:
         
         global gravity, left_dash, right_dash, down_dash, up_dash
 
-        if not self.is_floating:
+        # Inertia logic
+
+        if self.inertia:
+
+            if self.right_inertia:
+
+                if self.dx <= 0 or self.dx > 6:
+                    self.inertia = False
+                    self.right_inertia = False
+                    self.left_inertia = False
+                    self.inertia_time = 0
+                
+                self.dx -= 0.5
+            
+            if self.left_inertia:
+
+                if self.dx >= 0 or self.dx < -6:
+                    self.inertia = False
+                    self.right_inertia = False
+                    self.left_inertia = False
+                    self.inertia_time = 0
+
+                self.dx += 0.5
+            
+
+        if not self.is_floating and not self.inertia:
             self.dx = 0
        
         self.dy = 0
@@ -281,6 +311,9 @@ class Player:
                 self.is_WJ = False
                 self.WJ_timer = 0
                 self.screen_shake = True
+                self.inertia = False
+                self.right_inertia = False
+                self.left_inertia = False
                 
                 if left:
                     
@@ -296,7 +329,7 @@ class Player:
                     
                     if self.reverse:
                         self.dx = -self.dash_speed
-                        left_dash = True     
+                        left_dash = True
                     
                     else:
                         self.dx = self.dash_speed
@@ -418,6 +451,17 @@ class Player:
                 self.dash_particles.dash(self.vel_y, self.dx, (255,255,255), screen)
 
                 if self.dash_timer >= 15:
+
+                    if left_dash:
+                        self.inertia = True
+                        self.left_inertia = True
+                        self.right_inertia = False
+                    
+                    if right_dash:
+                        self.inertia = True
+                        self.right_inertia = True
+                        self.left_inertia = False
+
                     self.is_dashing = False
                     self.dash_timer = 0
                     left_dash = False
@@ -633,6 +677,7 @@ class Player:
                         self.screen_shake = True
                         self.floating_timer = 130
                         self.reverse = False
+                        self.inertia = False
                 
                 tile.update(screen)
 
@@ -976,8 +1021,6 @@ class Player:
 
             self.rect.x += self.dx
             self.rect.y += self.dy
-
-        pygame.draw.rect(screen, 'red', self.rect, 1, 1)
 
         # Game over animation
 

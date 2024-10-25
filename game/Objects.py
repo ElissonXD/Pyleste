@@ -26,7 +26,7 @@ Hitbox = {
     'trampoline': (40,20),
     'strawberry': (30,30),
     'sticky': tile_size,
-    'wood': (40, 7)
+    'wood': (32, 7)
     }
 
 pygame.init()
@@ -551,7 +551,10 @@ class Moveable:
     def __init__(self, x, y, direction, frames = frames_list):
         self.image = pygame.transform.scale(ichiban_cum, Hitbox['wood'])
         self.rect = self.image.get_rect()
-        self.rect.x = x
+        self.image_rect = self.image.get_rect()
+        self.image_rect.x = x
+        self.image_rect.y = y
+        self.rect.x = x + 8
         self.rect.y = y
         self.move_direction = 1.75
         self.move_counter = 0
@@ -568,9 +571,11 @@ class Moveable:
 
         if self.direction == 'Horizontal':
             self.rect.x += self.move_direction
+            self.image_rect.x += self.move_direction
        
         elif self.direction == 'Vertical':
             self.rect.y += self.move_direction
+            self.image_rect.y += self.move_direction
             
         for tile in hitboxes['hitbox']:
             
@@ -580,11 +585,6 @@ class Moveable:
         for tile in hitboxes['block']:
 
             if tile.hit_rect.colliderect(self.rect) and tile.data[1]:
-                self.move_direction = -(self.move_direction)
-        
-        for tile in hitboxes['trampoline']:
-            
-            if tile.hit_rect.colliderect(self.rect):
                 self.move_direction = -(self.move_direction)
         
         if (self.rect.right >= 800 + 2 or self.rect.left <= 0) and self.direction == 'Horizontal':
@@ -604,7 +604,7 @@ class Moveable:
             if self.frame == len(self.frames):
                 self.frame = 0
             
-        screen.blit(self.frames[self.frame], self.rect)
+        screen.blit(self.frames[self.frame], self.image_rect)
 
 # Flag cosmetic
 

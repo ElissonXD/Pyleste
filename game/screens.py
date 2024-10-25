@@ -368,7 +368,7 @@ def summit(strawberries, deaths, levels,  data):
     print_results = font.render(results, False, (255,255,255))
     thank_you = 'Thanks for playing!'
     print_ty = font.render(thank_you, False, (255,255,255))
-    total_straws = f'x {final_straws + 1} / 41'
+    total_straws = f'x {final_straws + 1} / 40'
     print_straws = font.render(total_straws, False, (255,255,255))
     total_deaths = f'x {final_deaths}'
     print_deaths = font.render(total_deaths, False, (255,255,255))
@@ -663,7 +663,7 @@ def title_screen():
             
             if black_rect_timer <= 0:
 
-                level_logic(0, 0, 1, all_levels, 2)
+                level_logic(0, 0, 1, all_levels, 29)
 
             pygame.draw.rect(screen, 'black', black_rect)
 
