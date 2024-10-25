@@ -72,7 +72,8 @@ total_time = f'{hours}:{minutes}:{time}'
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 while rodar:
     
-    print(player.dy)
+    #print(player.dy)
+    print(player.dx)
     total_time = f'{hours}:{minutes}:{time}'
     #print(player.reverse_tolerance)
     for event in pygame.event.get():
@@ -81,6 +82,8 @@ while rodar:
         if event.type == pygame.USEREVENT:
             time += 1
     #desenhar_matriz(tela, 20, 20, largura, altura)
+
+    screen.fill('black')
     if game_over:
         game_over,strawberries = player.controls(tiles.tiles_dict, tela, game_over,strawberries)
         clock.tick(fps)
@@ -113,7 +116,7 @@ while rodar:
                 shake = [0, 0]
                 shake_timer = 0
             
-        clock.tick(5)
+        clock.tick(fps)
         tiles.draw(tela)
         snow.snowing('white', screen, [-5, 7])
 

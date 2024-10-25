@@ -20,6 +20,7 @@ class Tile:
         self.block_list = []
         self.strawberry_list = []
         self.straw_fly_list = []
+        self.golden_list = []
         self.flag_list = []
 
         self.tiles_dict = {
@@ -34,6 +35,7 @@ class Tile:
             'block': self.block_list,
             'strawberry': self.strawberry_list,
             'flying_straw': self.straw_fly_list,
+            'golden_straw': self.golden_list,
             'flag': self.flag_list
         }
         
@@ -113,6 +115,10 @@ class Tile:
                 elif tile == 16: # Flag
                     flag = Flag(col_idx * tile_size[0], row_idx * tile_size[1])
                     self.flag_list.append(flag)
+                
+                elif tile == 17: # Golden Strawberry
+                    golden = Golden_Strawberry(col_idx * tile_size[0] + 5, row_idx * tile_size[1] + 5)
+                    self.golden_list.append(golden)
                     
                 col_idx += 1
             row_idx += 1

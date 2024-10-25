@@ -48,7 +48,8 @@ sound_effects = {
     'block_broke': pygame.mixer.Sound('assets/sfx/platform_disintegrate_01.wav'),
     'strawberry_get': pygame.mixer.Sound('assets/sfx/strawberry_get.wav'),
     'strawberry_fly_flap': pygame.mixer.Sound('assets/sfx/strawberry_wingflap.wav'),
-    'strawberry_fly': pygame.mixer.Sound('assets/sfx/strawberry_wingfly.wav')
+    'strawberry_fly': pygame.mixer.Sound('assets/sfx/strawberry_wingfly.wav'),
+    'gold_strawberry': pygame.mixer.Sound('assets/sfx/strawberry_gold.wav')
 }
 
 # Volume changes
@@ -386,6 +387,9 @@ class Strawberry:
         self.straw_rect.x = -110
         self.straw_rect.y = 94
 
+        # Sound instances
+        self.sound = sound_effects['strawberry_get']
+
     
     def update(self, screen, strawberries):
         
@@ -440,7 +444,7 @@ class Strawberry:
                 current_time = pygame.time.get_ticks()
 
                 if self.frame == 0 and current_time - self.last_update >= self.cooldown:
-                    sound_effects['strawberry_get'].play()
+                    self.sound.play()
 
                 if current_time - self.last_update >= self.cooldown:
                     self.frame += 1
@@ -507,6 +511,28 @@ class Flying_Strawberry(Strawberry):
                 if self.rect.y < -100:
                     self.vel_y = -1
                     self.has_dashed = False
+
+# Golden strawberry
+
+class Golden_Strawberry(Strawberry):
+
+    # Get sprites
+
+    sprite = pygame.image.load('assets/sprites/golden_straw.png')
+    sprites = SpriteSheet(sprite)
+    frames_list = sprites.get_spritesheet(8, [18,16], (40,40), 'black')
+    
+    # Class
+
+    def __init__(self, x, y, frames = frames_list):
+        # Inherit the strawberry class
+        super().__init__(x, y)
+        
+        # Change sprites
+        self.frames_display = frames
+        
+        # Change the sound 
+        self.sound = sound_effects['gold_strawberry']
 
 # Moveable platform
 

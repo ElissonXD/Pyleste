@@ -518,46 +518,6 @@ level_12_data = [
 # Level 13
 
 level_data_13 = [
-[0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-[0, 0, 0, 0, 8, 0, 8, 0, 8, 0, 8, 0, 7, 0, 7, 0, 7, 0, 0, 0],
-[0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 11, 0, 1, 0, 0, 1],
-[0, 0, 0, 8, 0, 0, 7, 0, 0, 7, 0, 0, 3, 0, 0, 0, 3, 0, 0, 1],
-[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 7, 0, 0, 7, 0, 0, 7, 0, 0],
-[6, 0, 0, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-[6, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-[6, 7, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[6, 0, 0, 0, 0, 0, 3, 0, 7, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0],
-[6, 0, 0, 8, 0, 0, 7, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 0, 7, 0],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0, 0, 6],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 6],
-[0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 6],
-[0, 16, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
-
-tiles_13 = Tile(level_data_13)
-background = pygame.image.load('assets/maps/level 13.png')
-background_scale_13 = pygame.transform.scale(background, (800, 800))
-
-level_13_data = [
-    1300,
-    80,
-    700,
-    background_scale_13,
-    back_rect,
-    tiles_13,
-    [False],
-    level_data_13
-]
-
-# Level 14
-
-level_data_14 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -580,24 +540,24 @@ level_data_14 = [
 [1, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0]
 ]
 
-tiles_14 = Tile(level_data_14)
-background = pygame.image.load('assets/maps/level 14.png')
-background_scale_14 = pygame.transform.scale(background, (800, 800))
+tiles_13 = Tile(level_data_13)
+background = pygame.image.load('assets/maps/level 13.png')
+background_scale_13 = pygame.transform.scale(background, (800, 800))
 
-level_14_data = [
-    1400,
+level_13_data = [
+    1300,
     50,
     700,
-    background_scale_14,
+    background_scale_13,
     back_rect,
-    tiles_14,
+    tiles_13,
     [False],
-    level_data_14
+    level_data_13
 ]
 
-# Level 15
+# Level 14
 
-level_data_15 = [
+level_data_14 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6],
 [0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0],
 [0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0],
@@ -620,24 +580,24 @@ level_data_15 = [
 [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]
 ]
 
-tiles_15 = Tile(level_data_15)
-background = pygame.image.load('assets/maps/level 15.png')
-background_scale_15 = pygame.transform.scale(background, (800, 800))
+tiles_14 = Tile(level_data_14)
+background = pygame.image.load('assets/maps/level 14.png')
+background_scale_14 = pygame.transform.scale(background, (800, 800))
 
-level_15_data = [
-    1500,
+level_14_data = [
+    1400,
     720,
     700,
-    background_scale_15,
+    background_scale_14,
     back_rect,
-    tiles_15,
+    tiles_14,
     [False],
-    level_data_15
+    level_data_14
 ]
 
-# Level 16
+# Level 15
 
-level_data_16 = [
+level_data_15 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -660,27 +620,27 @@ level_data_16 = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_16 = Tile(level_data_16)
-background = pygame.image.load('assets/maps/level 16.png')
-background_scale_16 = pygame.transform.scale(background, (800, 800))
-fake_background = pygame.image.load('assets/maps/level 16 aux.png')
+tiles_15 = Tile(level_data_15)
+background = pygame.image.load('assets/maps/level 15.png')
+background_scale_15 = pygame.transform.scale(background, (800, 800))
+fake_background = pygame.image.load('assets/maps/level 15 aux.png')
 fake_background_scale_2 = pygame.transform.scale(fake_background, (160, 80))
 fake_rect_2 = pygame.Rect(440, 680, 0, 0)
 
-level_16_data = [
-    1600,
+level_15_data = [
+    1500,
     720,
     700,
-    background_scale_16,
+    background_scale_15,
     back_rect,
-    tiles_16,
+    tiles_15,
     [True, fake_background_scale_2, fake_rect_2],
-    level_data_16
+    level_data_15
 ]
 
-# Level 17
+# Level 16
 
-level_data_17 = [
+level_data_16 = [
 [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [0, 0, 0, 0, 9, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -703,24 +663,24 @@ level_data_17 = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_17 = Tile(level_data_17)
-background = pygame.image.load('assets/maps/level 17.png')
-background_scale_17 = pygame.transform.scale(background, (800, 800))
+tiles_16 = Tile(level_data_16)
+background = pygame.image.load('assets/maps/level 16.png')
+background_scale_16 = pygame.transform.scale(background, (800, 800))
 
-level_17_data = [
-    1700,
+level_16_data = [
+    1600,
     720,
     700,
-    background_scale_17,
+    background_scale_16,
     back_rect,
-    tiles_17,
+    tiles_16,
     [False],
-    level_data_17
+    level_data_16
 ]
 
-# Level 18
+# Level 17
 
-level_data_18 = [
+level_data_17 = [
 [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [0, 0, 5, 1, 4, 0, 5, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 6, 5, 1, 4, 0, 5, 1, 1, 4, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0],
@@ -743,24 +703,24 @@ level_data_18 = [
 [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 ]
 
-tiles_18 = Tile(level_data_18)
-background = pygame.image.load('assets/maps/level 18.png')
-background_scale_18 = pygame.transform.scale(background, (800, 800))
+tiles_17 = Tile(level_data_17)
+background = pygame.image.load('assets/maps/level 17.png')
+background_scale_17 = pygame.transform.scale(background, (800, 800))
 
-level_18_data = [
-    1800,
+level_17_data = [
+    1700,
     50,
     720,
-    background_scale_18,
+    background_scale_17,
     back_rect,
-    tiles_18,
+    tiles_17,
     [False],
-    level_data_18
+    level_data_17
 ]
 
-# Level 19
+# Level 18
 
-level_data_19 = [
+level_data_18 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 15, 15],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 0, 0, 0, 0],
@@ -783,24 +743,24 @@ level_data_19 = [
 [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
 ]
 
-tiles_19 = Tile(level_data_19)
-background = pygame.image.load('assets/maps/level 19.png')
-background_scale_19 = pygame.transform.scale(background, (800, 800))
+tiles_18 = Tile(level_data_18)
+background = pygame.image.load('assets/maps/level 18.png')
+background_scale_18 = pygame.transform.scale(background, (800, 800))
 
-level_19_data = [
-    1900,
+level_18_data = [
+    1800,
     90,
     720,
-    background_scale_19,
+    background_scale_18,
     back_rect,
-    tiles_19,
+    tiles_18,
     [False],
-    level_data_19
+    level_data_18
 ]
 
-# Level 20
+# Level 19
 
-level_data_20 = [
+level_data_19 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
 [0, 0, 0, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 0, 1, 0, 0],
 [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1, 4, 0],
@@ -823,24 +783,24 @@ level_data_20 = [
 [0, 0, 0, 0, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_20 = Tile(level_data_20)
-background = pygame.image.load('assets/maps/level 20.png')
-background_scale_20 = pygame.transform.scale(background, (800, 800))
+tiles_19 = Tile(level_data_19)
+background = pygame.image.load('assets/maps/level 19.png')
+background_scale_19 = pygame.transform.scale(background, (800, 800))
 
-level_20_data = [
-    2000,
+level_19_data = [
+    1900,
     700,
     720,
-    background_scale_20,
+    background_scale_19,
     back_rect,
-    tiles_20,
+    tiles_19,
     [False],
-    level_data_20
+    level_data_19
     ]
 
-# Level 21
+# Level 20
 
-level_data_21 = [
+level_data_20 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0],
 [11, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -863,24 +823,24 @@ level_data_21 = [
 [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_21 = Tile(level_data_21)
-background = pygame.image.load('assets/maps/level 21.png')
-background_scale_21 = pygame.transform.scale(background, (800, 800))
+tiles_20 = Tile(level_data_20)
+background = pygame.image.load('assets/maps/level 20.png')
+background_scale_20 = pygame.transform.scale(background, (800, 800))
 
-level_21_data = [
-    2100,
+level_20_data = [
+    2000,
     700,
     700,
-    background_scale_21,
+    background_scale_20,
     back_rect,
-    tiles_21,
+    tiles_20,
     [False],
-    level_data_21
+    level_data_20
     ]
 
-# Level 22
+# Level 21
 
-level_data_22 = [
+level_data_21 = [
 [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [0, 0, 0, 5, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
 [0, 0, 0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -903,24 +863,24 @@ level_data_22 = [
 [1, 4, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 5, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_22 = Tile(level_data_22)
-background = pygame.image.load('assets/maps/level 22.png')
-background_scale_22 = pygame.transform.scale(background, (800, 800))
+tiles_21 = Tile(level_data_21)
+background = pygame.image.load('assets/maps/level 21.png')
+background_scale_21 = pygame.transform.scale(background, (800, 800))
 
-level_22_data = [
-    2200,
+level_21_data = [
+    2100,
     700,
     700,
-    background_scale_22,
+    background_scale_21,
     back_rect,
-    tiles_22,
+    tiles_21,
     [False],
-    level_data_22
+    level_data_21
     ]
 
-# Level 23
+# Level 22
 
-level_data_23 = [
+level_data_22 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
 [11, 0, 5, 1, 0, 11, 0, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 0],
 [13, 0, 5, 1, 4, 0, 0, 1, 4, 0, 0, 0, 0, 0, 2, 0, 0, 1, 4, 0],
@@ -943,24 +903,24 @@ level_data_23 = [
 [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
 
-tiles_23 = Tile(level_data_23)
-background = pygame.image.load('assets/maps/level 23.png')
-background_scale_23 = pygame.transform.scale(background, (800, 800))
+tiles_22 = Tile(level_data_22)
+background = pygame.image.load('assets/maps/level 22.png')
+background_scale_22 = pygame.transform.scale(background, (800, 800))
 
-level_23_data = [
-    2300,
+level_22_data = [
+    2200,
     50,
     700,
-    background_scale_23,
+    background_scale_22,
     back_rect,
-    tiles_23,
+    tiles_22,
     [False],
-    level_data_23
+    level_data_22
     ]
 
-# Level 24
+# Level 23
 
-level_data_24 = [
+level_data_23 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
 [0, 0, 11, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -983,24 +943,24 @@ level_data_24 = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_24 = Tile(level_data_24)
-background = pygame.image.load('assets/maps/level 24.png')
-background_scale_24 = pygame.transform.scale(background, (800, 800))
+tiles_23 = Tile(level_data_23)
+background = pygame.image.load('assets/maps/level 23.png')
+background_scale_23 = pygame.transform.scale(background, (800, 800))
 
-level_24_data = [
-    2400,
+level_23_data = [
+    2300,
     720,
     700,
-    background_scale_24,
+    background_scale_23,
     back_rect,
-    tiles_24,
+    tiles_23,
     [False],
-    level_data_24
+    level_data_23
     ]
 
-# Level 25
+# Level 24
 
-level_data_25 = [
+level_data_24 = [
 [1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
@@ -1023,24 +983,24 @@ level_data_25 = [
 [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1]
 ]
 
-tiles_25 = Tile(level_data_25)
-background = pygame.image.load('assets/maps/level 25.png')
-background_scale_25 = pygame.transform.scale(background, (800, 800))
+tiles_24 = Tile(level_data_24)
+background = pygame.image.load('assets/maps/level 24.png')
+background_scale_24 = pygame.transform.scale(background, (800, 800))
 
-level_25_data = [
-    2500,
+level_24_data = [
+    2400,
     720,
     700,
-    background_scale_25,
+    background_scale_24,
     back_rect,
-    tiles_25,
+    tiles_24,
     [False],
-    level_data_25
+    level_data_24
     ]
 
-# Level 26
+# Level 25
 
-level_data_26 = [
+level_data_25 = [
 [0, 0, 0, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
 [0, 0, 7, 0, 7, 0, 12, 0, 14, 0, 14, 0, 14, 0, 14, 0, 14, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
@@ -1063,24 +1023,24 @@ level_data_26 = [
 [0, 0, 9, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 0, 0, 1, 1, 1]
 ]
 
-tiles_26 = Tile(level_data_26)
-background = pygame.image.load('assets/maps/level 26.png')
-background_scale_26 = pygame.transform.scale(background, (800, 800))
+tiles_25 = Tile(level_data_25)
+background = pygame.image.load('assets/maps/level 25.png')
+background_scale_25 = pygame.transform.scale(background, (800, 800))
 
-level_26_data = [
-    2600,
+level_25_data = [
+    2500,
     720,
     700,
-    background_scale_26,
+    background_scale_25,
     back_rect,
-    tiles_26,
+    tiles_25,
     [False],
-    level_data_26
+    level_data_25
     ]
 
-# Level 27
+# Level 26
 
-level_data_27 = [
+level_data_26 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 [0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0],
 [0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 7, 0, 0, 0, 5, 1, 0],
@@ -1103,24 +1063,24 @@ level_data_27 = [
 [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 14]
 ]
 
-tiles_27 = Tile(level_data_27)
-background = pygame.image.load('assets/maps/level 27.png')
-background_scale_27 = pygame.transform.scale(background, (800, 800))
+tiles_26 = Tile(level_data_26)
+background = pygame.image.load('assets/maps/level 26.png')
+background_scale_26 = pygame.transform.scale(background, (800, 800))
 
-level_27_data = [
-    2700,
+level_26_data = [
+    2600,
     10,
     700,
-    background_scale_27,
+    background_scale_26,
     back_rect,
-    tiles_27,
+    tiles_26,
     [False],
-    level_data_27
+    level_data_26
     ]
 
-# Level 28
+# Level 27
 
-level_data_28 = [
+level_data_27 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [13, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0],
@@ -1143,24 +1103,24 @@ level_data_28 = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
 ]
 
-tiles_28 = Tile(level_data_28)
-background = pygame.image.load('assets/maps/level 28.png')
-background_scale_28 = pygame.transform.scale(background, (800, 800))
+tiles_27 = Tile(level_data_27)
+background = pygame.image.load('assets/maps/level 27.png')
+background_scale_27 = pygame.transform.scale(background, (800, 800))
 
-level_28_data = [
-    2800,
+level_27_data = [
+    2700,
     700,
     700,
-    background_scale_28,
+    background_scale_27,
     back_rect,
-    tiles_28,
+    tiles_27,
     [False],
-    level_data_28
+    level_data_27
     ]
 
-# Level 29
+# Level 28
 
-level_data_29 = [
+level_data_28 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
 [2, 2, 2, 2, 0, 0, 8, 0, 8, 0, 7, 0, 7, 6, 0, 0, 0, 0, 0, 0],
 [1, 1, 1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
@@ -1183,24 +1143,24 @@ level_data_29 = [
 [0, 6, 6, 0, 6, 6, 0, 6, 6, 0, 6, 6, 0, 0, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_29 = Tile(level_data_29)
-background = pygame.image.load('assets/maps/level 29.png')
-background_scale_29 = pygame.transform.scale(background, (800, 800))
+tiles_28 = Tile(level_data_28)
+background = pygame.image.load('assets/maps/level 28.png')
+background_scale_28 = pygame.transform.scale(background, (800, 800))
 
-level_29_data = [
-    2900,
+level_28_data = [
+    2800,
     700,
     700,
-    background_scale_29,
+    background_scale_28,
     back_rect,
-    tiles_29,
+    tiles_28,
     [False],
-    level_data_29
+    level_data_28
     ]
 
-# Level 30
+# Level 29
 
-level_data_30 = [
+level_data_29 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
  [13, 0, 6, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0],
@@ -1223,24 +1183,24 @@ level_data_30 = [
  [0, 0, 0, 5, 1, 4, 0, 0, 5, 1, 4, 0, 0, 5, 1, 4, 0, 1, 1, 1]
  ]
 
-tiles_30 = Tile(level_data_30)
-background = pygame.image.load('assets/maps/level 30.png')
-background_scale_30 = pygame.transform.scale(background, (800, 800))
+tiles_29 = Tile(level_data_29)
+background = pygame.image.load('assets/maps/level 29.png')
+background_scale_29 = pygame.transform.scale(background, (800, 800))
 
-level_30_data = [
-    3000,
+level_29_data = [
+    2900,
     700,
     700,
-    background_scale_30,
+    background_scale_29,
     back_rect,
-    tiles_30,
+    tiles_29,
     [False],
-    level_data_30
+    level_data_29
     ]
 
-# Level 31
+# Level 30
 
-level_data_31 = [
+level_data_30 = [
     [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 6, 14, 0, 6, 14, 0, 6, 14, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0],
@@ -1263,27 +1223,27 @@ level_data_31 = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
 ]
 
-tiles_31 = Tile(level_data_31)
-background = pygame.image.load('assets/maps/level 31.png')
-background_scale_31 = pygame.transform.scale(background, (800, 800))
-fake_background = pygame.image.load('assets/maps/level 31 aux.png')
+tiles_30 = Tile(level_data_30)
+background = pygame.image.load('assets/maps/level 30.png')
+background_scale_30 = pygame.transform.scale(background, (800, 800))
+fake_background = pygame.image.load('assets/maps/level 30 aux.png')
 fake_background_scale_3 = pygame.transform.scale(fake_background, (120, 240))
 fake_rect_3 = pygame.Rect(0, 160, 0, 0)
 
-level_31_data = [
-    3100,
+level_30_data = [
+    3000,
     720,
     700,
-    background_scale_31,
+    background_scale_30,
     back_rect,
-    tiles_31,
+    tiles_30,
     [True, fake_background_scale_3, fake_rect_3],
-    level_data_31
+    level_data_30
 ]
 
-# Level 32
+# Level 31
 
-level_data_32 = [
+level_data_31 = [
 [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [1, 1, 1, 1, 1, 0, 5, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1],
@@ -1306,24 +1266,24 @@ level_data_32 = [
 [1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]
 ]
 
-tiles_32 = Tile(level_data_32)
-background = pygame.image.load('assets/maps/level 32.png')
-background_scale_32 = pygame.transform.scale(background, (800, 800))
+tiles_31 = Tile(level_data_31)
+background = pygame.image.load('assets/maps/level 31.png')
+background_scale_31 = pygame.transform.scale(background, (800, 800))
 
-level_32_data = [
-    3200,
+level_31_data = [
+    3100,
     20,
     700,
-    background_scale_32,
+    background_scale_31,
     back_rect,
-    tiles_32,
+    tiles_31,
     [False],
-    level_data_32
+    level_data_31
     ]
 
-# Level 33
+# Level 32
 
-level_data_33 = [
+level_data_32 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
 [0, 8, 0, 8, 0, 8, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [8, 11, 8, 0, 8, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1346,24 +1306,24 @@ level_data_33 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1]
 ]
 
-tiles_33 = Tile(level_data_33)
-background = pygame.image.load('assets/maps/level 33.png')
-background_scale_33 = pygame.transform.scale(background, (800, 800))
+tiles_32 = Tile(level_data_32)
+background = pygame.image.load('assets/maps/level 32.png')
+background_scale_32 = pygame.transform.scale(background, (800, 800))
 
-level_33_data = [
-    3300,
+level_32_data = [
+    3200,
     20,
     700,
-    background_scale_33,
+    background_scale_32,
     back_rect,
-    tiles_33,
+    tiles_32,
     [False],
-    level_data_33
+    level_data_32
     ]
 
-# Level 34
+# Level 33
 
-level_data_34 = [
+level_data_33 = [
 [0, 0, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [0, 0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 7, 0, 7, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 9, 0, 0, 0],
@@ -1386,27 +1346,27 @@ level_data_34 = [
 [1, 1, 1, 1, 1, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1]
 ]
 
-tiles_34 = Tile(level_data_34)
-background = pygame.image.load('assets/maps/level 34.png')
-background_scale_34 = pygame.transform.scale(background, (800, 800))
-fake_background = pygame.image.load('assets/maps/level 34 aux.png')
+tiles_33 = Tile(level_data_33)
+background = pygame.image.load('assets/maps/level 33.png')
+background_scale_33 = pygame.transform.scale(background, (800, 800))
+fake_background = pygame.image.load('assets/maps/level 33 aux.png')
 fake_background_scale_4 = pygame.transform.scale(fake_background, (760, 760))
 fake_rect_4 = pygame.Rect(40, 40, 0, 0)
 
-level_34_data = [
-    3400,
+level_33_data = [
+    3300,
     720,
     700,
-    background_scale_34,
+    background_scale_33,
     back_rect,
-    tiles_34,
+    tiles_33,
     [True, fake_background_scale_4, fake_rect_4],
-    level_data_34
+    level_data_33
 ]
 
-# Level 35
+# Level 34
 
-level_data_35 = [
+level_data_34 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 1, 15, 15, 15],
 [0, 0, 0, 0, 8, 0, 8, 0, 8, 0, 8, 0, 0, 0, 0, 0, 1, 0, 0, 0],
@@ -1429,24 +1389,24 @@ level_data_35 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0]
 ]
 
-tiles_35 = Tile(level_data_35)
-background = pygame.image.load('assets/maps/level 35.png')
-background_scale_35 = pygame.transform.scale(background, (800, 800))
+tiles_34 = Tile(level_data_34)
+background = pygame.image.load('assets/maps/level 34.png')
+background_scale_34 = pygame.transform.scale(background, (800, 800))
 
-level_35_data = [
-    3500,
+level_34_data = [
+    3400,
     20,
     700,
-    background_scale_35,
+    background_scale_34,
     back_rect,
-    tiles_35,
+    tiles_34,
     [False],
-    level_data_35
+    level_data_34
     ]
 
-# Level 36
+# Level 35
 
-level_data_36 = [
+level_data_35 = [
 [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [15, 15, 3, 0, 0, 3, 0, 0, 0, 2, 2, 2, 0, 11, 2, 2, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0],
@@ -1469,24 +1429,24 @@ level_data_36 = [
 [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-tiles_36 = Tile(level_data_36)
-background = pygame.image.load('assets/maps/level 36.png')
-background_scale_36 = pygame.transform.scale(background, (800, 800))
+tiles_35 = Tile(level_data_35)
+background = pygame.image.load('assets/maps/level 35.png')
+background_scale_35 = pygame.transform.scale(background, (800, 800))
 
-level_36_data = [
-    3600,
+level_35_data = [
+    3500,
     700,
     700,
-    background_scale_36,
+    background_scale_35,
     back_rect,
-    tiles_36,
+    tiles_35,
     [False],
-    level_data_36
+    level_data_35
     ]
 
-# Level 37
+# Level 36
 
-level_data_37 = [
+level_data_36 = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
 [11, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6],
 [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1509,20 +1469,60 @@ level_data_37 = [
 [1, 1, 1, 1, 1, 0, 10, 0, 0, 10, 0, 0, 10, 0, 0, 10, 0, 0, 0, 0]
 ]
 
+tiles_36 = Tile(level_data_36)
+background = pygame.image.load('assets/maps/level 36.png')
+background_scale_36 = pygame.transform.scale(background, (800, 800))
+
+level_36_data = [
+    3600,
+    20,
+    700,
+    background_scale_36,
+    back_rect,
+    tiles_36,
+    [False],
+    level_data_36
+    ]
+
+# Level 37
+
+level_data_37 = [
+[0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+[0, 0, 0, 0, 8, 0, 8, 0, 8, 0, 8, 0, 7, 0, 7, 0, 7, 0, 0, 0],
+[0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0],
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 11, 0, 1, 0, 0, 1],
+[0, 0, 0, 8, 0, 0, 7, 0, 0, 7, 0, 0, 3, 0, 0, 0, 3, 0, 0, 1],
+[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 7, 0, 0, 7, 0, 0, 7, 0, 0],
+[6, 0, 0, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+[6, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+[6, 7, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[6, 0, 0, 0, 0, 0, 3, 0, 7, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0],
+[6, 0, 0, 8, 0, 0, 7, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 0, 7, 0],
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0, 0, 6],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 6],
+[0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 6],
+[0, 16, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
 tiles_37 = Tile(level_data_37)
 background = pygame.image.load('assets/maps/level 37.png')
 background_scale_37 = pygame.transform.scale(background, (800, 800))
 
 level_37_data = [
     3700,
-    20,
+    80,
     700,
     background_scale_37,
     back_rect,
     tiles_37,
     [False],
     level_data_37
-    ]
+]
 
 # Level 38
 
@@ -1610,7 +1610,7 @@ level_data_40 = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
