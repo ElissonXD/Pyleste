@@ -663,7 +663,7 @@ def title_screen():
             
             if black_rect_timer <= 0:
 
-                level_logic(0, 0, 1, all_levels, 29)
+                level_logic(0, 0, 1, all_levels, 1)
 
             pygame.draw.rect(screen, 'black', black_rect)
 
