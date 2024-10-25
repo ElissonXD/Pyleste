@@ -1,6 +1,6 @@
 import pygame
-from Spritesheet import *
-from Particles import *
+from game.Spritesheet import *
+from game.Particles import *
 
 class Player:
 

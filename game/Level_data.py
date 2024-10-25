@@ -2,10 +2,10 @@ import pygame
 import pygame.freetype
 import pygame.freetype
 import pygame.freetype
-from Player import *
-from Tile import *
+from game.Player import *
+from game.Tile import *
 from random import *
-from Particles import *
+from game.Particles import *
 
 # Initial data
 

@@ -1,8 +1,8 @@
 from typing import Any
-from Spritesheet import *
+from game.Spritesheet import *
 import pygame
 from random import *
-from Particles import *
+from game.Particles import *
 
 # Initial data
 

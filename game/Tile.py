@@ -1,5 +1,5 @@
 import pygame
-from Objects import *
+from game.Objects import *
 
 class Tile:
 

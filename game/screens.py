@@ -2,11 +2,11 @@ import pygame
 import pygame.freetype
 import pygame.freetype
 import pygame.freetype
-from Player import *
-from Tile import *
+from game.Player import *
+from game.Tile import *
 from random import *
-from Particles import *
-from Level_data import *
+from game.Particles import *
+from game.Level_data import *
 
 # Music and Sfx
 
