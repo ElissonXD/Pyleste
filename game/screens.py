@@ -1,3 +1,4 @@
+from sys import *
 import pygame
 import pygame.freetype
 import pygame.freetype
@@ -7,6 +8,10 @@ from game.Tile import *
 from random import *
 from game.Particles import *
 from game.Level_data import *
+
+# Change recursion depth
+
+setrecursionlimit(100000000)
 
 # Music and Sfx
 
@@ -260,7 +265,8 @@ def level_logic(strawberries, deaths, levels, data, index):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit() 
+                pygame.quit()
+                exit()
             
             if event.type == pygame.USEREVENT:
                 secs += 1
@@ -436,7 +442,8 @@ def summit(strawberries, deaths, levels,  data):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit() 
+                pygame.quit()
+                exit()
             
             if event.type == pygame.USEREVENT:
                 secs += 1
@@ -567,6 +574,12 @@ def title_screen():
     pygame.init()
     pygame.mixer.init()
 
+    pygame.display.set_caption('Pyleste')
+
+    icon = pygame.image.load('assets/sprites/icon.png')
+
+    pygame.display.set_icon(icon)
+
     run = True
     background_title = pygame.image.load('assets/screens/title_screen.png')
     back_rect = pygame.Rect(0, 0, 45, 45)
@@ -622,6 +635,7 @@ def title_screen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                exit()
     
         screen.blit(background_title, back_rect)
 
